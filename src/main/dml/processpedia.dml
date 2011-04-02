@@ -1,0 +1,127 @@
+package pt.ist.processpedia.domain;
+
+enum pt.ist.processpedia.domain.ProcessState as ProcessState;
+enum pt.ist.processpedia.domain.RequestState as RequestState;
+
+class Processpedia {
+  Integer nextProcessId;
+  Integer nextUserId;
+  Integer nextRequestId;
+}
+
+class DomainObject {
+  Integer id;
+}
+
+class Process extends DomainObject {
+  String title;
+  ProcessState state;
+  DateTime creationTimestamp;
+  DateTime closeTimestamp;
+}
+
+class Request extends DomainObject {
+  String title;
+  String description;
+  RequestState state;
+  DateTime creationTimestamp;
+  DateTime completionTimestamp;
+}
+
+class User extends DomainObject {
+  String name;
+  String email;
+  String passwordHash;
+}
+
+class Queue extends DomainObject {
+  String name;
+}
+
+relation ProcesspediaHasUsers {
+  Processpedia playsRole processpedia;
+  User playsRole user {
+    multiplicity *;
+  }
+}
+
+relation ProcesspediaHasProcesses {
+  Processpedia playsRole processpedia;
+  Process playsRole process {
+    multiplicity *;
+  }
+}
+
+relation UsersCreateProcesses {
+  User playsRole creator;
+  Process playsRole createdProcess {
+    multiplicity *;
+  }
+}
+
+relation UsersOwnProcesses {
+  User playsRole owner {
+    multiplicity *;
+  }
+  Process playsRole ownedProcess {
+    multiplicity *;
+  }
+}
+
+relation UsersInitiateRequests {
+  User playsRole initiator;
+  Request playsRole initiatedRequest {
+    multiplicity *;
+  }
+}
+
+relation UsersExecuteRequests {
+  User playsRole executor;
+  Request playsRole executingRequest {
+    multiplicity *;
+  }
+}
+
+relation RequestsOccurInTheContextOfAProcess {
+  Process playsRole process;
+  Request playsRole request {
+    multiplicity *;
+  }
+}
+
+relation RequestsMayContainOtherRequests {
+  Request playsRole parentRequest;
+  Request playsRole childRequest {
+    multiplicity *;
+  }
+}
+
+relation ProcesspediaContainsQueues {
+  Processpedia playsRole processpedia;
+  Queue playsRole queue {
+    multiplicity *;
+  }
+}
+
+relation RequestsArePublishedOnQueues {
+  Request playsRole publishedRequest {
+    multiplicity *;
+  }
+  Request playsRole queue {
+    multiplicity *;
+  }
+}
+
+relation QueuesMayContainOtherQueues {
+  Queue playsRole parentQueue {
+    multiplicity *;
+  }
+  Queue playsRole childQueue {
+    multiplicity *;
+  }
+}
+
+relation UsersHaveAPrivateQueue {
+  User playsRole privateOwner;
+  Queue playsRole privateQueue;
+}
