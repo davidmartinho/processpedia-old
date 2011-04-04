@@ -5,6 +5,9 @@ import pt.ist.processpedia.domain.User;
 import pt.ist.processpedia.domain.Process;
 import pt.ist.processpedia.domain.Queue;
 
+import java.util.Set;
+import java.util.HashSet;
+
 public class DtoMapper {
 
   public static UserDto createUserDtoFromUser(User user) {
@@ -22,5 +25,12 @@ public class DtoMapper {
   public static RequestDto createRequestDtoFromRequest(Request request) {
     return new RequestDto(request.getId(), request.getTitle(), request.getDescription(), createUserDtoFromUser(request.getInitiator()));
   }
-  
+
+  public static QueueDetailedDto createQueueDetailedDtoFromQueue(Queue queue) {
+    Set<QueueDetailedDto> queueDetailedDtoSet = new HashSet<QueueDetailedDto>();
+    for(Queue childQueue : queue.getChildQueueSet()) {
+      queueDetailedDtoSet.add(createQueueDetailedDtoFromQueue(childQueue));
+    }
+    return new QueueDetailedDto(queue.getId(), queue.getName(), queueDetailedDtoSet);
+  }
 }

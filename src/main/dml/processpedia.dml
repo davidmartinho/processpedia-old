@@ -7,6 +7,7 @@ class Processpedia {
   Integer nextProcessId;
   Integer nextUserId;
   Integer nextRequestId;
+  Integer nextQueueId;
 }
 
 class DomainObject {

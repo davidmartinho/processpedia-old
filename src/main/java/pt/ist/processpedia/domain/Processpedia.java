@@ -11,6 +11,7 @@ public class Processpedia extends Processpedia_Base {
     setNextProcessId(1);
     setNextUserId(1);
     setNextRequestId(1);
+    setNextQueueId(1);
   }
   
   /**
@@ -206,9 +207,9 @@ public class Processpedia extends Processpedia_Base {
 
   /**
    * Adds the user to the list of process owners.
-   * @param toBeOwnerUser The
-   * @param process
-   * @param ownerUser
+   * @param toBeOwnerUser The user to be the new owner of the process.
+   * @param process The process to be owned by <code>toBeOwnerUser</code>.
+   * @param ownerUser The user attempting to provide ownership privileges to <code>toBeOwnerUser</code>.
    */
   public void addProcessOwner(User toBeOwnerUser, Process process, User ownerUser) {
     if(process.hasOwner(toBeOwnerUser)) {
@@ -218,6 +219,19 @@ public class Processpedia extends Processpedia_Base {
     } else {
       throw new UserDoesNotOwnProcessDomainException(ownerUser, process);
     }
-
   }
+
+  /**
+   * Creates a new queue.
+   * @param name The name of the queue.
+   * @param user The user creating the queue.
+   * @return The created queue.
+   */
+  public Queue createNewQueue(String name, User user) {
+    Queue queue = new Queue(name);
+    queue.setId(getNextQueueId());
+    setNextQueueId(getNextQueueId()+1);
+    return queue;
+  }
+  
 }
