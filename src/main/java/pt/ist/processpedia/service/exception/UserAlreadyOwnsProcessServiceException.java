@@ -3,18 +3,18 @@ package pt.ist.processpedia.service.exception;
 import pt.ist.processpedia.service.dto.ProcessDto;
 import pt.ist.processpedia.service.dto.UserDto;
 
-public class UserDoesNotOwnProcessServiceException extends ProcesspediaServiceException {
-  
-  private static final long serialVersionUID = 1L;
+public class UserAlreadyOwnsProcessServiceException extends ProcesspediaServiceException {
+
+  private static long serialVersionUID = 1L;
 
   private UserDto userDto;
   private ProcessDto processDto;
 
-  public UserDoesNotOwnProcessServiceException(UserDto userDto, ProcessDto processDto) {
-    this.processDto = processDto;
+  public UserAlreadyOwnsProcessServiceException(UserDto userDto, ProcessDto processDto) {
     this.userDto = userDto;
+    this.processDto = processDto;
   }
-  
+
   public UserDto getUserDto() {
     return this.userDto;
   }
@@ -22,5 +22,5 @@ public class UserDoesNotOwnProcessServiceException extends ProcesspediaServiceEx
   public ProcessDto getProcessDto() {
     return this.processDto;
   }
-
+  
 }

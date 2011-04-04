@@ -20,5 +20,4 @@ public class UserDoesNotParticipateInProcessServiceException extends Processpedi
     return this.processId;
   }
 
-
 }

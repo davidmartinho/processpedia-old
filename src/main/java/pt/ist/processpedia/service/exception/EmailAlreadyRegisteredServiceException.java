@@ -1,23 +1,19 @@
 package pt.ist.processpedia.service.exception;
 
+import pt.ist.processpedia.service.dto.UserDetailedDto;
+
 public class EmailAlreadyRegisteredServiceException extends ProcesspediaServiceException {
 
   private static final long serialVersionUID = 1L;
 
-  private String name;
-  private String email;
+  private UserDetailedDto userDto;
 
-  public EmailAlreadyRegisteredServiceException(String name, String email) {
-    this.name = name;
-    this.email = email;
+  public EmailAlreadyRegisteredServiceException(UserDetailedDto userDto) {
+    this.userDto = userDto;
   }
   
-  public String getName() {
-    return this.name;
-  }
-  
-  public String getEmail() {
-    return this.email;
+  public UserDetailedDto getUserDto() {
+    return this.userDto;
   }
 
 }

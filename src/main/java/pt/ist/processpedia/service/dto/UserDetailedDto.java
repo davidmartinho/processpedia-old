@@ -13,9 +13,4 @@ public class UserDetailedDto extends UserDto {
    return this.email;
  }
 
- @Override
- public String toJson() {
-   return "{ id: "+this.getId()+", name: \""+this.getName()+"\", email: \""+this.getEmail()+"\"}";
- }
-
 }

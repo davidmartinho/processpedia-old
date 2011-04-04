@@ -4,9 +4,7 @@ import pt.ist.processpedia.domain.Process;
 import pt.ist.processpedia.domain.User;
 
 public class NoPermissionToCloseProcessDomainException extends ProcesspediaDomainException {
-  
-  private static final long serialVersionUID = 1L;
-  
+    
   private Process process;
   private User user;
   

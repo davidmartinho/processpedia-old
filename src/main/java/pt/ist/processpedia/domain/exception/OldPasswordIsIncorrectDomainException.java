@@ -1,11 +1,16 @@
 package pt.ist.processpedia.domain.exception;
 
+import pt.ist.processpedia.domain.User;
+
 public class OldPasswordIsIncorrectDomainException extends ProcesspediaDomainException {
-  
-  private static final long serialVersionUID = 1L;
-  
-  public OldPasswordIsIncorrectDomainException() {
-    
+
+  private User user;
+
+  public OldPasswordIsIncorrectDomainException(User user) {
+    this.user = user;
   }
-  
+
+  public User getUser() {
+    return this.user;
+  }
 }

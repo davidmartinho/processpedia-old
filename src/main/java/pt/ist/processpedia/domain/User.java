@@ -24,7 +24,7 @@ public class User extends User_Base {
     if(getPasswordHash().equals(oldPasswordHash)) {
       setPasswordHash(newPasswordHash);
     } else {
-      throw new OldPasswordIsIncorrectDomainException();
+      throw new OldPasswordIsIncorrectDomainException(this);
     }
   }
 

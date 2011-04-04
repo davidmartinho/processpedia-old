@@ -2,7 +2,7 @@ package pt.ist.processpedia.service.dto;
 
 import java.util.Set;
 
-public class QueueDetailedDto extends QueueSimpleDto {
+public class QueueDetailedDto extends QueueDto {
 
   private Set<QueueDetailedDto> childQueueDtoSet;
   
@@ -13,15 +13,6 @@ public class QueueDetailedDto extends QueueSimpleDto {
 
   public Set<QueueDetailedDto> getChildQueueDtoSet() {
     return this.childQueueDtoSet;
-  }
-  
-  @Override
-  public String toJson() {
-    String childQueuesJson = "";
-    for(QueueDetailedDto childQueueDto : this.childQueueDtoSet) {
-      childQueuesJson+= childQueueDto.toJson();
-    }
-    return "{id: "+this.getId()+", name: \""+this.getName()+"\", childQueues: ["+childQueuesJson+"] }";
   }
   
 }

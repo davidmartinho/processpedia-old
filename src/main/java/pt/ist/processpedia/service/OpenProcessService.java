@@ -42,12 +42,12 @@ public class OpenProcessService extends ProcesspediaService<Boolean> {
     } catch(NoPermissionToOpenProcessDomainException e) {
       process = e.getProcess();
       user = e.getUser();
-      ProcessDto processDto = new ProcessDto(process.getId(), process.getTitle());
+      ProcessDto processDto = new ProcessDto(process.getId(), process.getTitle(), process.isOpen());
       UserDto userDto = new UserDto(user.getId(), user.getName());
       throw new NoPermissionToOpenProcessServiceException(processDto, userDto);
     } catch(ProcessAlreadyOpenDomainException e) {
       process = e.getProcess();
-      ProcessDto processDto = new ProcessDto(process.getId(), process.getTitle());
+      ProcessDto processDto = new ProcessDto(process.getId(), process.getTitle(), process.isOpen());
       throw new ProcessAlreadyOpenServiceException(processDto);
     }
     return true;

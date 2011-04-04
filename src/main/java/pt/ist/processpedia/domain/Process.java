@@ -2,6 +2,7 @@ package pt.ist.processpedia.domain;
 
 import org.joda.time.DateTime;
 
+import pt.ist.processpedia.domain.exception.NoPermissionToCloseProcessDomainException;
 import pt.ist.processpedia.domain.exception.NoPermissionToCreateProcessDomainException;
 import pt.ist.processpedia.domain.exception.UserDoesNotOwnProcessDomainException;
 import pt.ist.processpedia.domain.exception.UserIsNotExecutingParentRequestDomainException;
@@ -35,7 +36,7 @@ public class Process extends Process_Base {
       request.setProcess(this);
       return request;
     } else {
-      throw new UserDoesNotOwnProcessDomainException(this, creator);
+      throw new UserDoesNotOwnProcessDomainException(creator, this);
     }
   }
   
@@ -53,7 +54,7 @@ public class Process extends Process_Base {
       request.setProcess(this);
       return request;
     } else {
-      throw new UserIsNotExecutingParentRequestDomainException(this,creator,parentRequest);
+      throw new UserIsNotExecutingParentRequestDomainException(creator, this, parentRequest);
     }
   }
   

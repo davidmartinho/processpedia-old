@@ -4,8 +4,8 @@ public class ProcessDetailedDto extends ProcessDto {
 
   private UserDto creatorDto;
 
-  public ProcessDetailedDto(Integer id, String title, UserDto creatorDto) {
-    super(id, title);
+  public ProcessDetailedDto(Integer id, String title, Boolean isOpen, UserDto creatorDto) {
+    super(id, title, isOpen);
     this.creatorDto = creatorDto;
   }
 

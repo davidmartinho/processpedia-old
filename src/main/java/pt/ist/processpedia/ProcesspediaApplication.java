@@ -3,18 +3,15 @@ package pt.ist.processpedia;
 import pt.ist.fenixframework.Config;
 import pt.ist.fenixframework.FenixFramework;
 
-import pt.ist.processpedia.service.CreateProcessService;
+import pt.ist.processpedia.service.*;
+import pt.ist.processpedia.service.dto.RequestDto;
+import pt.ist.processpedia.service.util.JSONMapper;
+import pt.ist.processpedia.service.util.Mapper;
+
 import pt.ist.processpedia.util.ConfigLoader;
 
-import pt.ist.processpedia.domain.Processpedia;
-import pt.ist.processpedia.domain.Process;
-import pt.ist.processpedia.domain.User;
-import pt.ist.processpedia.domain.Request;
-
-import pt.ist.processpedia.service.CreateUserService;
-import pt.ist.processpedia.service.GetUserByIdService;
-
 import pt.ist.processpedia.service.dto.UserDto;
+import pt.ist.processpedia.service.dto.ProcessDto;
 
 public class ProcesspediaApplication {
   
@@ -26,26 +23,45 @@ public class ProcesspediaApplication {
   
   public static void doStuff() {
     try {
-    CreateUserService service = new CreateUserService("David Martinho", "davidmartinho@gmai.com", "adfdad");
-    service.execute();
+      CreateUserService createUserService = new CreateUserService("David Martinho", "davidmartinho@gmail.com", "adfdad");
+      createUserService.execute();
 
-    CreateProcessService createProcessService = new CreateProcessService(1, "Master Thesis Management");
-    service.execute();
-    
-    GetUserByIdService s = new GetUserByIdService(1);
-    UserDto dto = s.execute();
+      CreateUserService createAnotherUserService = new CreateUserService("John Doe", "john.doe@email.com", "23w4234234234");
+      createAnotherUserService.execute();
 
-    GetProcessByIdService s2 = new GetProcess
+      CreateProcessService createProcessService = new CreateProcessService(1, "Master Thesis Management");
+      createProcessService.execute();
 
-    System.out.println(dto.toJson());
+      GetUserByIdService getUserByIdService = new GetUserByIdService(1);
+      UserDto userDto = getUserByIdService.execute();
+
+      GetProcessByIdService getProcessByIdService = new GetProcessByIdService(1, 1);
+      ProcessDto processDto = getProcessByIdService.execute();
+
+      Mapper mapper = new JSONMapper();
+
+      System.out.println(mapper.fromUserDto(userDto));
+
+      System.out.println(mapper.fromProcessDto(processDto));
+
+
+      CreateNewRequestService createNewRequestService = new CreateNewRequestService(1,1,"Review Paper", "Please review this paper.");
+      createNewRequestService.execute();
+
+      GetRequestByIdService getRequestByIdService = new GetRequestByIdService(1,1);
+      RequestDto requestDto = getRequestByIdService.execute();
+
+
+      System.out.println(mapper.fromRequestDto(requestDto));
+
+      
 
 
     } catch(Exception e) {
-      
+      e.printStackTrace();
     }
 
     
   }
-  
   
 }

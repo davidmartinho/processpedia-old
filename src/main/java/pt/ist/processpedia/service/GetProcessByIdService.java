@@ -1,9 +1,11 @@
 package pt.ist.processpedia.service;
 
+import pt.ist.processpedia.domain.ProcessState;
 import pt.ist.processpedia.domain.Processpedia;
 import pt.ist.processpedia.domain.Process;
 import pt.ist.processpedia.domain.User;
 
+import pt.ist.processpedia.service.dto.DtoMapper;
 import pt.ist.processpedia.service.dto.ProcessDto;
 import pt.ist.processpedia.service.dto.UserDto;
 
@@ -34,10 +36,9 @@ public class GetProcessByIdService extends ProcesspediaService<ProcessDto> {
       throw new ProcessIdNotFoundServiceException(this.processId);
     }
     if(process.hasParticipant(user)) {
-      return new ProcessDto(process.getId(), process.getTitle());
+      return new ProcessDto(process.getId(), process.getTitle(), process.isOpen());
     } else {
-      UserDto userDto = new UserDto(user.getId(), user.getName());
-      throw new UserDoesNotParticipateInProcessServiceException(userDto, this.processId);
+      throw new UserDoesNotParticipateInProcessServiceException(DtoMapper.createUserDtoFromUser(user), process.getId());
     }
   }
 }

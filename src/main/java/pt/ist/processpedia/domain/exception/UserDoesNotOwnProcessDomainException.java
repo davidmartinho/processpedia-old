@@ -4,23 +4,21 @@ import pt.ist.processpedia.domain.Process;
 import pt.ist.processpedia.domain.User;
 
 public class UserDoesNotOwnProcessDomainException extends ProcesspediaDomainException {
-  
-  private static final long serialVersionUID = 1L;
-  
+    
   private Process process;
   private User user;
   
-  public UserDoesNotOwnProcessDomainException(Process process, User user) {
-    this.process = process;
+  public UserDoesNotOwnProcessDomainException(User user, Process process) {
     this.user = user;
-  }
-  
-  public Process getProcess() {
-    return this.process;
+    this.process = process;
   }
   
   public User getUser() {
     return this.user;
+  }
+
+  public Process getProcess() {
+    return this.process;
   }
   
 }

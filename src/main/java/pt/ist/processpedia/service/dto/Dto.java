@@ -11,7 +11,5 @@ public abstract class Dto {
   public Integer getId() {
     return this.id;
   }
-
-  public abstract String toJson();
   
 }

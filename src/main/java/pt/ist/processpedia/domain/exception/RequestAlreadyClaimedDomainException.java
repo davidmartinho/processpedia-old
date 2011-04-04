@@ -4,8 +4,6 @@ import pt.ist.processpedia.domain.Request;
 
 public class RequestAlreadyClaimedDomainException extends ProcesspediaDomainException {
 
-  private static final long serialVersionUID = 1L;
-
   private Request request;
 
   public RequestAlreadyClaimedDomainException(Request request) {

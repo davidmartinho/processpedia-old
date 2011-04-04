@@ -1,13 +1,6 @@
 package pt.ist.processpedia.domain;
 
-import pt.ist.processpedia.domain.exception.EmailAlreadyRegisteredDomainException;
-import pt.ist.processpedia.domain.exception.UserDoesNotOwnProcessDomainException;
-import pt.ist.processpedia.domain.exception.UserIsNotExecutingParentRequestDomainException;
-import pt.ist.processpedia.domain.exception.ProcessAlreadyOpenDomainException;
-import pt.ist.processpedia.domain.exception.RequestAlreadyClaimedDomainException;
-import pt.ist.processpedia.domain.exception.ProcessAlreadyClosedDomainException;
-import pt.ist.processpedia.domain.exception.NoPermissionToOpenProcessDomainException;
-import pt.ist.processpedia.domain.exception.NoPermissionToCloseProcessDomainException;
+import pt.ist.processpedia.domain.exception.*;
 
 public class Processpedia extends Processpedia_Base {
 
@@ -29,6 +22,7 @@ public class Processpedia extends Processpedia_Base {
     Process process = new Process(creator, title);
     process.setId(getNextProcessId());
     setNextProcessId(getNextProcessId()+1);
+    addProcess(process);
     return process;
   }
   
@@ -36,12 +30,12 @@ public class Processpedia extends Processpedia_Base {
    * Closes a process that is in the open state.
    * @param process The process being closed.
    * @param user The user that is trying to close the process.
-   * @throws ProcessAlreadyClosedException If the process is already in the closed state.
-   * @throws NoPermissionToCloseProcessException If the user has no privileges to close the process.
+   * @throws ProcessAlreadyClosedDomainException If the process is already in the closed state.
+   * @throws NoPermissionToCloseProcessDomainException If the user has no privileges to close the process.
    */
   public void closeProcess(Process process, User user) throws ProcessAlreadyClosedDomainException, NoPermissionToCloseProcessDomainException {
     if(process.isClosed()) {
-      throw new ProcessAlreadyClosedDomainException();
+      throw new ProcessAlreadyClosedDomainException(process);
     } else {
       if(process.canBeClosedByUser(user)) {
         process.close();
@@ -65,7 +59,7 @@ public class Processpedia extends Processpedia_Base {
     if(process.canBeOpenedByUser(user)) {
       process.open();
     } else {
-      throw new NoPermissionToOpenProcessDomainException(process, user);
+      throw new NoPermissionToOpenProcessDomainException(user, process);
     }
   }
   
@@ -77,12 +71,13 @@ public class Processpedia extends Processpedia_Base {
    * @param title The title of the request.
    * @param description A more detailed specification of the request.
    * @return The created request.
-   * @throws UserDoesNotOwnProcessException If the creator is not listed as an owner of the process.
+   * @throws UserDoesNotOwnProcessDomainException If the creator is not listed as an owner of the process.
    */
   public Request createNewRequest(Process process, User creator, String title, String description) throws UserDoesNotOwnProcessDomainException {
     Request request = process.createNewRequest(creator, title, description);
     request.setId(getNextRequestId());
     setNextRequestId(getNextRequestId()+1);
+    process.addRequest(request);
     return request;
   }
   
@@ -92,12 +87,13 @@ public class Processpedia extends Processpedia_Base {
    * @param title The title of the request.
    * @param description The description of the request.
    * @param parentRequest The request from which the request being created is originated.
-   * @throws UserIsNotExecutingParentRequestException If the creator is not the current executor of the parentRequest.
+   * @throws UserIsNotExecutingParentRequestDomainException If the creator is not the current executor of the parentRequest.
    */
   public Request createNewRequest(Process process, User creator, String title, String description, Request parentRequest) throws UserIsNotExecutingParentRequestDomainException {
     Request request = process.createNewRequest(creator, title, description, parentRequest);
     request.setId(getNextRequestId());
     setNextRequestId(getNextRequestId()+1);
+    process.addRequest(request);
     return request;
   }
   
@@ -107,7 +103,7 @@ public class Processpedia extends Processpedia_Base {
    * @param email The email address of the user.
    * @param passwordHash The hash function of the user's password.
    * @return The created user.
-   * @throws EmailAlreadyRegisteredException If the email already belongs to another processpedia user.
+   * @throws EmailAlreadyRegisteredDomainException If the email already belongs to another processpedia user.
    */
   public User createNewUser(String name, String email, String passwordHash) throws EmailAlreadyRegisteredDomainException {
     for(User user: this.getUserSet()) {
@@ -118,7 +114,7 @@ public class Processpedia extends Processpedia_Base {
     User user = new User(name, email, passwordHash);
     user.setId(getNextUserId());
     setNextUserId(getNextUserId()+1);
-    this.addUser(user);
+    addUser(user);
     return user;
   }
   
@@ -134,7 +130,24 @@ public class Processpedia extends Processpedia_Base {
     }
     request.setExecutor(claimer);
   }
-  
+
+
+  /**
+   * Obtains a request given its id.
+   * @param requestId The id of the request.
+   * @return The request if the id matches, null otherwise.
+   */
+  public Request getRequestById(Integer requestId) {
+    for(Process process : this.getProcessSet()) {
+      for(Request request : process.getRequestSet()) {
+        if(request.getId()==requestId) {
+          return request;
+        }
+      }
+    }
+    return null;
+  }
+
   /**
    * Obtains a queue given its id.
    * @param queueId The id of the queue.
@@ -165,7 +178,7 @@ public class Processpedia extends Processpedia_Base {
   
   /**
    * Obtains a user given its id.
-   * @param The id of the user.
+   * @param userId The id of the user.
    * @return The user if the userId matches, null otherwise.
    */
   public User getUserById(Integer userId) {
@@ -191,4 +204,20 @@ public class Processpedia extends Processpedia_Base {
     return null;
   }
 
+  /**
+   * Adds the user to the list of process owners.
+   * @param toBeOwnerUser The
+   * @param process
+   * @param ownerUser
+   */
+  public void addProcessOwner(User toBeOwnerUser, Process process, User ownerUser) {
+    if(process.hasOwner(toBeOwnerUser)) {
+      throw new UserAlreadyOwnsProcessDomainException(toBeOwnerUser, process);
+    }
+    if(process.hasOwner(ownerUser)) {
+    } else {
+      throw new UserDoesNotOwnProcessDomainException(ownerUser, process);
+    }
+
+  }
 }

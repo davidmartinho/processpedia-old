@@ -1,17 +1,14 @@
 package pt.ist.processpedia.service;
 
-import java.util.Set;
-import java.util.HashSet;
-
 import pt.ist.processpedia.domain.Processpedia;
 import pt.ist.processpedia.domain.User;
 import pt.ist.processpedia.domain.Queue;
 
-import pt.ist.processpedia.service.dto.QueueSimpleDto;
+import pt.ist.processpedia.service.dto.QueueDto;
 
 import pt.ist.processpedia.service.exception.UserIdNotFoundServiceException;
 
-public class GetUserQueueByUserIdService extends ProcesspediaService<QueueSimpleDto> {
+public class GetUserQueueByUserIdService extends ProcesspediaService<QueueDto> {
   
   private Integer userId;
   
@@ -20,7 +17,7 @@ public class GetUserQueueByUserIdService extends ProcesspediaService<QueueSimple
   }
   
   @Override
-  public QueueSimpleDto dispatch() throws UserIdNotFoundServiceException {
+  public QueueDto dispatch() throws UserIdNotFoundServiceException {
     Processpedia processpedia = getProcesspedia();
     User user = processpedia.getUserById(this.userId);
     if(user==null) {
@@ -30,8 +27,8 @@ public class GetUserQueueByUserIdService extends ProcesspediaService<QueueSimple
     return getQueueDto(queue);
   }
   
-  private QueueSimpleDto getQueueDto(Queue queue) {
-    return new QueueSimpleDto(queue.getId(), queue.getName());
+  private QueueDto getQueueDto(Queue queue) {
+    return new QueueDto(queue.getId(), queue.getName());
   }
   
 }

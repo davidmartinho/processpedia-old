@@ -38,7 +38,7 @@ public class Request extends Request_Base {
    * @return True if the user is either the initiator or executor of the request or sub-request, false otherwise.
    */
   public boolean hasUserInvolved(User user) {
-    if(getInitiator().equals(user) || (hasExecutor() && getExecutor().equals(user))) {
+    if(isInitiator(user) || isExecutor(user)) {
       return true;
     } else {
       for(Request childRequest : getChildRequestSet()) {
@@ -49,5 +49,24 @@ public class Request extends Request_Base {
       return false;
     }
   }
+
+  /**
+   * Checks if a given user is the initiator of the request.
+   * @param user The user to be checked
+   * @return True if the given user is the initiator of the request, false otherwise.
+   */
+  public boolean isInitiator(User user) {
+    return getInitiator().equals(user);
+  }
+
+  /**
+   * Checks if a given user is the executor of the request.
+   * @param user The user to be checked
+   * @return True if the given user is the executor of the request, false otherwise.
+   */
+  public Boolean isExecutor(User user) {
+    return hasExecutor() && getExecutor().equals(user);
+  }
+
 
 }
