@@ -3,6 +3,7 @@ package pt.ist.processpedia;
 import pt.ist.fenixframework.Config;
 import pt.ist.fenixframework.FenixFramework;
 
+import pt.ist.processpedia.service.CreateProcessService;
 import pt.ist.processpedia.util.ConfigLoader;
 
 import pt.ist.processpedia.domain.Processpedia;
@@ -27,9 +28,14 @@ public class ProcesspediaApplication {
     try {
     CreateUserService service = new CreateUserService("David Martinho", "davidmartinho@gmai.com", "adfdad");
     service.execute();
+
+    CreateProcessService createProcessService = new CreateProcessService(1, "Master Thesis Management");
+    service.execute();
     
     GetUserByIdService s = new GetUserByIdService(1);
     UserDto dto = s.execute();
+
+    GetProcessByIdService s2 = new GetProcess
 
     System.out.println(dto.toJson());
 

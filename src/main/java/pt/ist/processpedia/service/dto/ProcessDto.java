@@ -1,21 +1,20 @@
 package pt.ist.processpedia.service.dto;
 
-public class ProcessDto {
+public class ProcessDto extends Dto {
   
-  Integer id;
   String title;
   
   public ProcessDto(Integer id, String title) {
-    this.id = id;
+    super(id);
     this.title = title;
-  }
-  
-  public Integer getId() {
-    return this.id;
   }
   
   public String getTitle() {
     return this.title;
   }
-  
+
+  @Override
+  public String toJson() {
+    return "{ id: "+this.getId()+", title: \""+this.getTitle()+"\"}";
+  }
 }

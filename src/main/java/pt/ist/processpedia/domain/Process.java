@@ -2,9 +2,7 @@ package pt.ist.processpedia.domain;
 
 import org.joda.time.DateTime;
 
-import pt.ist.processpedia.domain.exception.ProcessAlreadyOpenDomainException;
 import pt.ist.processpedia.domain.exception.NoPermissionToCreateProcessDomainException;
-import pt.ist.processpedia.domain.exception.NoPermissionToOpenProcessDomainException;
 import pt.ist.processpedia.domain.exception.UserDoesNotOwnProcessDomainException;
 import pt.ist.processpedia.domain.exception.UserIsNotExecutingParentRequestDomainException;
 
@@ -119,4 +117,23 @@ public class Process extends Process_Base {
     return getState().equals(ProcessState.CLOSED);
   }
 
+  /**
+   * Checks if the provided user is a current participant of the process, or if he owns the process.
+   * @param user The user for which is being checked a current participation.
+   * @return True if the user is either currently participating in the process or is one of its owners, false otherwise.
+   */
+  public Boolean hasParticipant(User user) {
+    for(User owner : this.getOwnerSet()) {
+      if(owner.equals(user)) {
+        return true;
+      }
+    }
+    for(Request request : this.getRequestSet()) {
+      if(request.hasUserInvolved(user)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
 }

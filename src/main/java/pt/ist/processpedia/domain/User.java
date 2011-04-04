@@ -6,6 +6,9 @@ public class User extends User_Base {
 
   /**
    * Creates a new user.
+   * @param name The name of the user.
+   * @param email The email address of the user.
+   * @param passwordHash The hash of the user's password.
    */
   public User(String name, String email, String passwordHash) {
     setName(name);
@@ -25,4 +28,13 @@ public class User extends User_Base {
     }
   }
 
+  /**
+   * Checks if the user is equal to the provided user.
+   * @param user The comparing user.
+   * @return True if users have the same id, false otherwise.
+   */
+  public Boolean equals(User user) {
+    return getId().equals(user.getId());
+  }
+  
 }

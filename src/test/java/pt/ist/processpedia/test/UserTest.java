@@ -9,10 +9,9 @@ import pt.ist.fenixframework.FenixFramework;
 import jvstm.Transaction;
 
 import pt.ist.processpedia.domain.Processpedia;
-import pt.ist.processpedia.domain.Process;
 import pt.ist.processpedia.domain.User;
 
-import pt.ist.processpedia.service.exception.EmailAlreadyRegisteredException;
+import pt.ist.processpedia.domain.exception.EmailAlreadyRegisteredDomainException;
 
 public class UserTest extends TestCase {
   
@@ -39,21 +38,21 @@ public class UserTest extends TestCase {
     Processpedia processpedia = FenixFramework.getRoot();
     User d1 = processpedia.createNewUser("David Martinho", "davidmartinho@gmail.com", "asdf43rf3223rd2323ef2");
     assertEquals(d1,processpedia.getUserByEmail("davidmartinho@gmail.com"));
-    Transaction.commit();
+    Transaction.abort();
   }
   
   public void testUserCreationWithAlreadyRegisteredEmail() {
     Transaction.begin();
-    Processpedia processpedia = FenixFramework.getRoot();
+    Processpedia processpedia = (Processpedia)FenixFramework.getRoot();
     Boolean exceptionThrown = false;
     try {
       User d1 = processpedia.createNewUser("David Martinho", "davidmartinho@gmail.com", "asdf43rf3223rd2323ef2");
       User d2 = processpedia.createNewUser("David Martinho", "davidmartinho@gmail.com", "asdf43rf3223rd2323ef2");
-    } catch(EmailAlreadyRegisteredException e) {
+    } catch(EmailAlreadyRegisteredDomainException e) {
       exceptionThrown = true;
     }
     assertTrue(exceptionThrown);
-    Transaction.commit();
+    Transaction.abort();
   }
   
   public static boolean deleteDir(File dir) {
