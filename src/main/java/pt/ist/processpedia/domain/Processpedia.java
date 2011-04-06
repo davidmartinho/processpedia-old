@@ -116,6 +116,10 @@ public class Processpedia extends Processpedia_Base {
     user.setId(getNextUserId());
     setNextUserId(getNextUserId()+1);
     addUser(user);
+    Queue queue = new Queue(user.getName()+"'s Private Queue");
+    queue.setId(getNextQueueId());
+    setNextQueueId(getNextQueueId()+1);
+    user.setPrivateQueue(queue);
     return user;
   }
   

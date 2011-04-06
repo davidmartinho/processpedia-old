@@ -4,15 +4,16 @@ import pt.ist.processpedia.domain.Processpedia;
 import pt.ist.processpedia.domain.User;
 import pt.ist.processpedia.domain.Queue;
 
+import pt.ist.processpedia.service.dto.DtoMapper;
 import pt.ist.processpedia.service.dto.QueueDto;
 
 import pt.ist.processpedia.service.exception.UserIdNotFoundServiceException;
 
-public class GetUserQueueByUserIdService extends ProcesspediaService<QueueDto> {
+public class GetUserPrivateQueueByUserIdService extends ProcesspediaService<QueueDto> {
   
   private Integer userId;
   
-  public GetUserQueueByUserIdService(Integer userId) {
+  public GetUserPrivateQueueByUserIdService(Integer userId) {
     this.userId = userId;
   }
   
@@ -24,11 +25,7 @@ public class GetUserQueueByUserIdService extends ProcesspediaService<QueueDto> {
       throw new UserIdNotFoundServiceException(this.userId);
     }
     Queue queue = user.getPrivateQueue();
-    return getQueueDto(queue);
+    return DtoMapper.createQueueDtoFromQueue(queue);
   }
-  
-  private QueueDto getQueueDto(Queue queue) {
-    return new QueueDto(queue.getId(), queue.getName());
-  }
-  
+
 }

@@ -7,6 +7,9 @@ import pt.ist.processpedia.domain.exception.NoPermissionToCreateProcessDomainExc
 import pt.ist.processpedia.domain.exception.UserDoesNotOwnProcessDomainException;
 import pt.ist.processpedia.domain.exception.UserIsNotExecutingParentRequestDomainException;
 
+/**
+ * This class represents a business process execution supported by the Processpedia Workflow System environment.
+ */
 public class Process extends Process_Base {
 
   /**
@@ -91,7 +94,7 @@ public class Process extends Process_Base {
   /**
    * Opens the process.
    */
-  public void open() {
+  protected void open() {
     setState(ProcessState.OPEN);
   }
   
@@ -106,7 +109,7 @@ public class Process extends Process_Base {
   /**
    * Closes the process.
    */
-  public void close() {
+  protected void close() {
     setState(ProcessState.CLOSED);
   }
   

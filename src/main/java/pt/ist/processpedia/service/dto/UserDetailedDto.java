@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2011. Instituto Superior Técnico.
+ * All rights reserved.
+ **/
+
 package pt.ist.processpedia.service.dto;
 
 public class UserDetailedDto extends UserDto {
