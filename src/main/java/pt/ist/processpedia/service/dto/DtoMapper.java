@@ -6,10 +6,8 @@
 
 package pt.ist.processpedia.service.dto;
 
-import pt.ist.processpedia.domain.Request;
-import pt.ist.processpedia.domain.User;
+import pt.ist.processpedia.domain.*;
 import pt.ist.processpedia.domain.Process;
-import pt.ist.processpedia.domain.Queue;
 
 import java.util.Set;
 import java.util.HashSet;
@@ -66,6 +64,28 @@ public class DtoMapper {
       queueDetailedDtoSet.add(createQueueDetailedDtoFromQueue(childQueue));
     }
     return new QueueDetailedDto(queue.getId(), queue.getName(), queueDetailedDtoSet);
+  }
+
+  /**
+   * Generates a <code>CommentDto</code> containing the comment's id, text and the dto of its author.
+   * @param comment The comment domain object from which the dto will be created.
+   * @return The dto containing data from the comment provided as argument.
+   */
+  public static CommentDto createCommentDtoFromComment(Comment comment) {
+    return new CommentDto(comment.getId(), comment.getCommentText(), createUserDtoFromUser(comment.getAuthor()));
+  }
+
+  /**
+   * Creates a set of request DTOs from a set of requests domain objects.
+   * @param requestSet The set of request domain objects.
+   * @return The corresponding set of request DTOs.
+   */
+  public static Set<RequestDto> createRequestDtoSetFromRequestSet(Set<Request> requestSet) {
+    Set<RequestDto> requestDtoSet = new HashSet<RequestDto>();
+    for(Request request : requestSet) {
+      requestDtoSet.add(createRequestDtoFromRequest(request));
+    }
+    return requestDtoSet;
   }
   
 }

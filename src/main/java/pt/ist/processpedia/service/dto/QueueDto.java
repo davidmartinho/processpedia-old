@@ -6,9 +6,6 @@
 
 package pt.ist.processpedia.service.dto;
 
-/**
- *
- */
 public class QueueDto extends Dto {
 
   private String name;

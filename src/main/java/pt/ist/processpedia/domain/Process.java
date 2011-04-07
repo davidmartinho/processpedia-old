@@ -127,13 +127,25 @@ public class Process extends Process_Base {
    * @return True if the user is either currently participating in the process or is one of its owners, false otherwise.
    */
   public Boolean hasParticipant(User user) {
-    for(User owner : this.getOwnerSet()) {
-      if(owner.equals(user)) {
-        return true;
-      }
+    if(isOwnedBy(user)) {
+      return true;
     }
     for(Request request : this.getRequestSet()) {
       if(request.hasUserInvolved(user)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Checks if the provided user is a current owner of the process.
+   * @param user The user for which is being checked if he owns the process.
+   * @return True if the provided user owns the process, false otherwise.
+   */
+  public Boolean isOwnedBy(User user) {
+    for(User owner : this.getOwnerSet()) {
+      if(owner.equals(user)) {
         return true;
       }
     }

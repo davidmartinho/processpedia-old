@@ -1,6 +1,10 @@
 package pt.ist.processpedia.domain;
 
 import pt.ist.processpedia.domain.exception.OldPasswordIsIncorrectDomainException;
+import pt.ist.processpedia.domain.exception.UserIsNotExecutingParentRequestDomainException;
+import pt.ist.processpedia.domain.exception.UserIsNotRequestInitiatorDomainException;
+
+import java.util.Set;
 
 public class User extends User_Base {
 
@@ -18,7 +22,7 @@ public class User extends User_Base {
   
   /**
    * Changes the user's password.
-   * @ throws OldPasswordIsIncorrectDomainException If the provided old password does not match the current one.
+   * @throws OldPasswordIsIncorrectDomainException If the provided old password does not match the current one.
    */
   public void changePassword(String oldPasswordHash, String newPasswordHash) throws OldPasswordIsIncorrectDomainException {
     if(getPasswordHash().equals(oldPasswordHash)) {
@@ -29,12 +33,29 @@ public class User extends User_Base {
   }
 
   /**
+   * Change the user's avatar url.
+   * @param newAvatarUrl The url where the new avatar is located.
+   */
+  public void changeAvatarUrl(String newAvatarUrl) {
+    setAvatarUrl(newAvatarUrl);
+  }
+  
+  /**
    * Checks if the user is equal to the provided user.
    * @param user The comparing user.
    * @return True if users have the same id, false otherwise.
    */
   public Boolean equals(User user) {
-    return getId().equals(user.getId());
+    return this.getId().equals(user.getId());
   }
-  
+
+
+  public void unpublishRequest(Request request) throws UserIsNotRequestInitiatorDomainException {
+    if(!request.isInitiator(this)) {
+      throw new UserIsNotRequestInitiatorDomainException(this, request);
+    }
+    for(Queue queue : request.getPublishedQueue()) {
+      queue.removePublishedRequest(request);
+    }
+  }
 }

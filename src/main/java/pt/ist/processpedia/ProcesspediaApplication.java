@@ -4,6 +4,7 @@ import pt.ist.fenixframework.Config;
 import pt.ist.fenixframework.FenixFramework;
 
 import pt.ist.processpedia.service.*;
+import pt.ist.processpedia.service.dto.QueueDto;
 import pt.ist.processpedia.service.dto.RequestDto;
 import pt.ist.processpedia.service.util.JSONMapper;
 import pt.ist.processpedia.service.util.Mapper;
@@ -45,7 +46,7 @@ public class ProcesspediaApplication {
       System.out.println(mapper.fromProcessDto(processDto));
 
 
-      CreateNewRequestService createNewRequestService = new CreateNewRequestService(1,1,"Review Paper", "Please review this paper.");
+      CreateRequestService createNewRequestService = new CreateRequestService(1,1,"Review Paper", "Please review this paper.");
       createNewRequestService.execute();
 
       GetRequestByIdService getRequestByIdService = new GetRequestByIdService(1,1);
@@ -54,7 +55,10 @@ public class ProcesspediaApplication {
 
       System.out.println(mapper.fromRequestDto(requestDto));
 
-      
+      GetUserPrivateQueueByUserIdService getUserPrivateQueueByUserIdService = new GetUserPrivateQueueByUserIdService(1);
+      QueueDto queueDto = getUserPrivateQueueByUserIdService.execute();
+
+      System.out.println(mapper.fromQueueDto(queueDto));
 
       
 

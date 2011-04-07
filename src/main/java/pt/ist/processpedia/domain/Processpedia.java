@@ -237,5 +237,15 @@ public class Processpedia extends Processpedia_Base {
     setNextQueueId(getNextQueueId()+1);
     return queue;
   }
-  
+
+
+  public void removeProcessOwner(User ownerToBeRemovedUser, Process process, User user) {
+    if(!process.isOwnedBy(user)) {
+      throw new UserDoesNotOwnProcessDomainException(user, process);
+    }
+    if(!process.isOwnedBy(ownerToBeRemovedUser)) {
+      throw new UserDoesNotOwnProcessDomainException(ownerToBeRemovedUser, process);
+    }
+  }
+
 }

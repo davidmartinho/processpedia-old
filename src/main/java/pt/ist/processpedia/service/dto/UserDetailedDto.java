@@ -1,6 +1,7 @@
 /**
  * Copyright (c) 2011. Instituto Superior Técnico.
- * All rights reserved.
+ *
+ * Author: David Martinho (davidmartinho@ist.utl.pt)
  **/
 
 package pt.ist.processpedia.service.dto;

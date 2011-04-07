@@ -68,5 +68,16 @@ public class Request extends Request_Base {
     return hasExecutor() && getExecutor().equals(user);
   }
 
-
+  /**
+   * Creates a new comment and associates it to the request.
+   * @param author The user authoring the comment.
+   * @param commentText The text of the comment.
+   * @return The created comment.
+   */
+  public Comment createComment(User author, String commentText) {
+    Comment comment = new Comment(author, commentText);
+    addComment(comment);
+    return comment;
+  }
+  
 }
