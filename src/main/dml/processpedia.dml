@@ -33,10 +33,16 @@ class User extends DomainObject {
   String name;
   String email;
   String passwordHash;
+  String avatarUrl;
 }
 
 class Queue extends DomainObject {
   String name;
+}
+
+class Comment extends DomainObject {
+  DateTime creationTimestamp;
+  String commentText;
 }
 
 relation ProcesspediaHasUsers {
@@ -108,7 +114,7 @@ relation RequestsArePublishedOnQueues {
   Request playsRole publishedRequest {
     multiplicity *;
   }
-  Request playsRole queue {
+  Queue playsRole publishedQueue {
     multiplicity *;
   }
 }
@@ -125,4 +131,18 @@ relation QueuesMayContainOtherQueues {
 relation UsersHaveAPrivateQueue {
   User playsRole privateOwner;
   Queue playsRole privateQueue;
+}
+
+relation RequestsHaveComments {
+  Request playsRole request;
+  Comment playsRole comment {
+    multiplicity *;
+  }
+}
+
+relation UserAuthorComments {
+  User playsRole author;
+  Comment playsRole comment {
+    multiplicity *;
+  }
 }
