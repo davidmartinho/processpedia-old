@@ -15,14 +15,14 @@ import pt.ist.processpedia.service.exception.ProcessIdNotFoundServiceException;
 import pt.ist.processpedia.service.exception.UserIdNotFoundServiceException;
 import pt.ist.processpedia.service.exception.UserDoesNotOwnProcessServiceException;
 
-public class CreateNewRequestService extends ProcesspediaService<RequestDto> {
+public class CreateRequestService extends ProcesspediaService<RequestDto> {
   
   private Integer processId;
   private Integer userId;
   private String title;
   private String description;
   
-  public CreateNewRequestService(Integer processId, Integer userId, String title, String description) {
+  public CreateRequestService(Integer processId, Integer userId, String title, String description) {
     this.processId = processId;
     this.userId = userId;
     this.title = title;
