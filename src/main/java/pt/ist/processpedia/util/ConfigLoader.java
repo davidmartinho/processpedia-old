@@ -5,10 +5,14 @@ import java.io.IOException;
 import java.util.Properties;
 
 import pt.ist.fenixframework.Config;
-import pt.ist.fenixframework.FenixFramework;
 
 public class ConfigLoader {
-  
+
+  /**
+   * Generates a Config object containing the properties defined in a relative path-based properties file, required to initialize the FenixFramework.
+   * @param relativePathFileName The relative path name where the property file defining the config properties exists.
+   * @return The respective Config object to initialize the FenixFramework.
+   */
   public static Config loadFromProperties(String relativePathFileName) {
      final Properties props = new Properties();
       try {

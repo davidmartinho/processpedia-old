@@ -1,7 +1,5 @@
 package pt.ist.processpedia.domain;
 
-import pt.ist.processpedia.domain.exception.NoPermissionToCreateRequestDomainException;
-
 import org.joda.time.DateTime;
 
 public class Request extends Request_Base {

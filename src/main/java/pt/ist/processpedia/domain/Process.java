@@ -7,6 +7,9 @@ import pt.ist.processpedia.domain.exception.NoPermissionToCreateProcessDomainExc
 import pt.ist.processpedia.domain.exception.UserDoesNotOwnProcessDomainException;
 import pt.ist.processpedia.domain.exception.UserIsNotExecutingParentRequestDomainException;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * This class represents a business process execution supported by the Processpedia Workflow System environment.
  */
@@ -151,5 +154,18 @@ public class Process extends Process_Base {
     }
     return false;
   }
-  
+
+  /**
+   * Computes the set of current users participating in the process (creator, owners, initiators and executors).
+   * @return The set of users participating in the process.
+   */
+  public Set<User> getParticipantSet() {
+    Set<User> participantSet = new HashSet<User>();
+    participantSet.addAll(getOwnerSet());
+    for(Request request : getRequestSet()) {
+      //TODO: ADD ALL THE OTHER CURRENT PARTICIPANTS TO THE SET
+    }
+    return participantSet;
+  }
+
 }

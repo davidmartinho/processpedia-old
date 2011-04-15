@@ -76,7 +76,7 @@ public class DtoMapper {
   }
 
   /**
-   * Creates a set of request DTOs from a set of requests domain objects.
+   * Creates a set of request DTOs from a set of request domain objects.
    * @param requestSet The set of request domain objects.
    * @return The corresponding set of request DTOs.
    */
@@ -86,6 +86,19 @@ public class DtoMapper {
       requestDtoSet.add(createRequestDtoFromRequest(request));
     }
     return requestDtoSet;
+  }
+
+  /**
+   * Creates a set of request DTOs from a set of request domain objects.
+   * @param userSet The set of user domain objects.
+   * @return The corresponding set of request DTOs.
+   */
+  public static Set<UserDto> createUserDtoSetFromUserSet(Set<User> userSet) {
+    Set<UserDto> userDtoSet = new HashSet<UserDto>();
+    for(User user : userSet) {
+      userDtoSet.add(createUserDtoFromUser(user));
+    }
+    return userDtoSet;
   }
   
 }
