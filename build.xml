@@ -11,6 +11,7 @@
   <property name="build.rel-dir" value="build"/>
   <property name="lib.rel-dir" value="lib"/>
   <property name="db.rel-dir" value="db"/>
+  <property name="test-db.rel-dir" value="test-db"/>
   
   <property name="dml.filename" value="processpedia.dml"/>
   
@@ -35,6 +36,7 @@
     <echo message="Preparing the project for build..."/>
     <mkdir dir="${classes.build.rel-dir}"/>
     <mkdir dir="${db.rel-dir}"/>
+    <mkdir dir="${test-db.rel-dir}"/>
   </target>
   
   <target name="generate-domain" depends="prepare">
@@ -102,6 +104,7 @@
   
   <target name="clean-all" depends="clean">
     <delete dir="${db.rel-dir}"/>
+    <delete dir="${test-db.rel-dir}"/>
   </target>
 
 </project>
