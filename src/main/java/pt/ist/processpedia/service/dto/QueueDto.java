@@ -22,7 +22,7 @@ public class QueueDto extends Dto {
 
   private String name;
   
-  public QueueDto(Integer id, String name) {
+  public QueueDto(String id, String name) {
     super(id);
     this.name = name;
   }

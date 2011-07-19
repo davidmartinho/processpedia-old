@@ -22,7 +22,7 @@ public class ProcessDetailedDto extends ProcessDto {
 
   private UserDto creatorDto;
 
-  public ProcessDetailedDto(Integer id, String title, Boolean isOpen, UserDto creatorDto) {
+  public ProcessDetailedDto(String id, String title, Boolean isOpen, UserDto creatorDto) {
     super(id, title, isOpen);
     this.creatorDto = creatorDto;
   }

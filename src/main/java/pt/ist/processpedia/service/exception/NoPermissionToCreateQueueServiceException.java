@@ -22,7 +22,7 @@ import pt.ist.processpedia.service.dto.UserDto;
 
 public class NoPermissionToCreateQueueServiceException extends ProcesspediaServiceException {
 
-  private static long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
   private UserDto userDto;
 

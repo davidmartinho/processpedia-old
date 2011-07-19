@@ -27,19 +27,23 @@ public class User extends User_Base {
 
   /**
    * Creates a new user.
-   * @param name The name of the user.
-   * @param email The email address of the user.
-   * @param passwordHash The hash of the user's password.
+   * @param userId the identifier of the new user
+   * @param name the name of the new user
+   * @param email the email address of the new user
+   * @param passwordHash the hash of the new user's password
    */
-  public User(String name, String email, String passwordHash) {
+  public User(String userId, String name, String email, String passwordHash) {
+    init(userId);
     setName(name);
     setEmail(email);
     setPasswordHash(passwordHash);
   }
-  
+
   /**
    * Changes the user's password.
-   * @throws OldPasswordIsIncorrectDomainException If the provided old password does not match the current one.
+   * @param oldPasswordHash the old password's hash value
+   * @param newPasswordHash the new password's hash value
+   * @throws OldPasswordIsIncorrectDomainException when the old password provided does not match the current one
    */
   public void changePassword(String oldPasswordHash, String newPasswordHash) throws OldPasswordIsIncorrectDomainException {
     if(getPasswordHash().equals(oldPasswordHash)) {
@@ -51,22 +55,26 @@ public class User extends User_Base {
 
   /**
    * Change the user's avatar url.
-   * @param newAvatarUrl The url where the new avatar is located.
+   * @param newAvatarUrl the url where the new avatar is located
    */
   public void changeAvatarUrl(String newAvatarUrl) {
     setAvatarUrl(newAvatarUrl);
   }
-  
+
   /**
    * Checks if the user is equal to the provided user.
-   * @param user The comparing user.
-   * @return True if users have the same id, false otherwise.
+   * @param user the comparing user
+   * @return true if users have the same id, false otherwise
    */
   public Boolean equals(User user) {
     return this.getId().equals(user.getId());
   }
 
-
+  /**
+   * Cancels an initiated request.
+   * @param request the request to be cancelled
+   * @throws UserIsNotRequestInitiatorDomainException when the user trying to cancel the request is not its initiator
+   */
   public void unpublishRequest(Request request) throws UserIsNotRequestInitiatorDomainException {
     if(!request.isInitiator(this)) {
       throw new UserIsNotRequestInitiatorDomainException(this, request);
@@ -75,4 +83,5 @@ public class User extends User_Base {
       queue.removePublishedRequest(request);
     }
   }
+
 }

@@ -23,7 +23,7 @@ public class CommentDto extends Dto {
   private String commentText;
   private UserDto authorDto;
 
-  public CommentDto(Integer id, String commentText, UserDto authorDto) {
+  public CommentDto(String id, String commentText, UserDto authorDto) {
     super(id);
     this.commentText = commentText;
     this.authorDto = authorDto;

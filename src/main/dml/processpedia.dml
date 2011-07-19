@@ -2,16 +2,26 @@ package pt.ist.processpedia.domain;
 
 enum pt.ist.processpedia.domain.ProcessState as ProcessState;
 enum pt.ist.processpedia.domain.RequestState as RequestState;
+enum pt.ist.processpedia.domain.ResponseState as ResponseState;
+
+
+valueType pt.ist.processpedia.domain.Id as Id {
+  externalizeWith {
+    String toString();
+  }
+}
 
 class Processpedia {
-  Integer nextProcessId;
-  Integer nextUserId;
-  Integer nextRequestId;
-  Integer nextQueueId;
+  Id nextProcessId;
+  Id nextUserId;
+  Id nextQueueId;
+  Id nextRequestId;
+  Id nextCommitmentId;
+  Id nextResponseId;
 }
 
 class DomainObject {
-  Integer id;
+  String id;
 }
 
 class Process extends DomainObject {
@@ -31,6 +41,10 @@ class Request extends DomainObject {
 
 class Commitment extends DomainObject {
   DateTime commitmentTimestamp;
+}
+
+class Response extends DomainObject {
+  ResponseState state;
 }
 
 class User extends DomainObject {
@@ -112,6 +126,25 @@ relation CommitmentsAreMadeToARequest {
   Commitment playsRole commitment {
     multiplicity *;
   }
+}
+
+relation CommitmentHasResponses {
+  Commitment playsRole commitment;
+  Response playsRole response {
+    multiplicity *;
+  }
+}
+
+relation ResponsesMayBeImproved {
+  Response playsRole previousResponse;
+  Response playsRole improvedResponse;
+}
+
+relation UsersCreateResponses {
+  Response playsRole response {
+    multiplicity *;
+  }
+  User playsRole creator;
 }
 
 relation RequestsMayContainOtherRequests {

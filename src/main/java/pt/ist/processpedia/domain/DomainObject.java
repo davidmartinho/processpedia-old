@@ -17,10 +17,10 @@
 
 package pt.ist.processpedia.domain;
 
-public class DomainObject extends DomainObject_Base {
+public abstract class DomainObject extends DomainObject_Base {
 
-  public DomainObject() {
-    super();
+  public void init(String id) {
+    setId(id);
   }
 
 }

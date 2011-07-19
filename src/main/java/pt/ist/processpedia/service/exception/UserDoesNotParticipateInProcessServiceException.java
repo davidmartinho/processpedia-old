@@ -1,6 +1,5 @@
-/**
- * Processpedia
- * Copyright (C) 2011 ESW Software Engineering Group
+/*
+ * Copyright 2011 ESW Software Engineering Group
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +13,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
 
 package pt.ist.processpedia.service.exception;
 
@@ -22,22 +21,22 @@ import pt.ist.processpedia.service.dto.UserDto;
 
 public class UserDoesNotParticipateInProcessServiceException extends ProcesspediaServiceException {
 
-  private static long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-  private UserDto userDto;
-  private Integer processId;
+  private final UserDto userDto;
+  private final String processId;
 
-  public UserDoesNotParticipateInProcessServiceException(UserDto userDto, Integer processId) {
+  public UserDoesNotParticipateInProcessServiceException(UserDto userDto, String processId) {
     this.userDto = userDto;
     this.processId = processId;
   }
 
   public UserDto getUserDto() {
-    return this.userDto;
+    return userDto;
   }
 
-  public Integer getProcessId() {
-    return this.processId;
+  public String getProcessId() {
+    return processId;
   }
 
 }

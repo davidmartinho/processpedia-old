@@ -15,22 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package pt.ist.processpedia.domain;
+package pt.ist.processpedia.service.dto;
 
 import org.joda.time.DateTime;
 
-public class Comment extends Comment_Base {
+public class CommitmentDto extends Dto {
 
-  /**
-   * Creates a new comment.
-   * @param author the user authoring the comment
-   * @param commentText the text of the comment
-   */
-  public Comment(String commentId, User author, String commentText) {
-    init(commentId);
-    setAuthor(author);
-    setCommentText(commentText);
-    setCreationTimestamp(new DateTime());
+  private final DateTime commitmentTimestamp;
+
+  public CommitmentDto(String id, DateTime commitmentTimestamp) {
+    super(id);
+    this.commitmentTimestamp = commitmentTimestamp;
+  }
+
+  public DateTime getCommitmentTimestamp() {
+    return commitmentTimestamp;
   }
 
 }

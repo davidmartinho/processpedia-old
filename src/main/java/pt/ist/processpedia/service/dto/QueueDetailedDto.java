@@ -24,7 +24,7 @@ public class QueueDetailedDto extends QueueDto {
 
   private Set<QueueDetailedDto> childQueueDtoSet;
   
-  public QueueDetailedDto(Integer id, String name, Set<QueueDetailedDto> childQueueDtoSet) {
+  public QueueDetailedDto(String id, String name, Set<QueueDetailedDto> childQueueDtoSet) {
     super(id, name);
     this.childQueueDtoSet = childQueueDtoSet;
   }

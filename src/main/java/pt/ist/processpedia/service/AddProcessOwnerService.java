@@ -1,6 +1,5 @@
-/**
- * Processpedia
- * Copyright (C) 2011 ESW Software Engineering Group
+/*
+ * Copyright 2011 ESW Software Engineering Group
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,19 +13,16 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
 
 package pt.ist.processpedia.service;
 
 import pt.ist.processpedia.domain.Processpedia;
 import pt.ist.processpedia.domain.Process;
 import pt.ist.processpedia.domain.User;
-
 import pt.ist.processpedia.domain.exception.UserAlreadyOwnsProcessDomainException;
 import pt.ist.processpedia.domain.exception.UserDoesNotOwnProcessDomainException;
-
 import pt.ist.processpedia.service.dto.DtoMapper;
-
 import pt.ist.processpedia.service.exception.ProcessIdNotFoundServiceException;
 import pt.ist.processpedia.service.exception.UserAlreadyOwnsProcessServiceException;
 import pt.ist.processpedia.service.exception.UserDoesNotOwnProcessServiceException;
@@ -34,28 +30,15 @@ import pt.ist.processpedia.service.exception.UserIdNotFoundServiceException;
 
 public class AddProcessOwnerService extends ProcesspediaService<Boolean> {
 
-  private Integer processId;
-  private Integer ownerUserId;
-  private Integer toBeOwnerUserId;
+  private final String processId;
+  private final String ownerUserId;
+  private final String toBeOwnerUserId;
 
-  public AddProcessOwnerService(Integer toBeOwnerUserId, Integer processId, Integer ownerUserId) {
+  public AddProcessOwnerService(String toBeOwnerUserId, String processId, String ownerUserId) {
     this.ownerUserId = ownerUserId;
     this.processId = processId;
     this.toBeOwnerUserId = toBeOwnerUserId;
   }
-
-  public Integer getProcessId() {
-    return this.processId;
-  }
-
-  public Integer getOwnerUserId() {
-    return this.ownerUserId;
-  }
-
-  public Integer getToBeOwnerUserId() {
-    return this.toBeOwnerUserId;
-  }
-
 
   @Override
   public Boolean dispatch() throws UserIdNotFoundServiceException, ProcessIdNotFoundServiceException, UserDoesNotOwnProcessServiceException, UserAlreadyOwnsProcessServiceException {
@@ -63,17 +46,17 @@ public class AddProcessOwnerService extends ProcesspediaService<Boolean> {
     User ownerUser = null;
     Process process = null;
     User toBeOwnerUser = null;
-    toBeOwnerUser = processpedia.getUserById(this.toBeOwnerUserId);
+    toBeOwnerUser = processpedia.getUserById(toBeOwnerUserId);
     if(toBeOwnerUser == null) {
-      throw new UserIdNotFoundServiceException(this.toBeOwnerUserId);
+      throw new UserIdNotFoundServiceException(toBeOwnerUserId);
     }
-    process = processpedia.getProcessById(this.processId);
+    process = processpedia.getProcessById(processId);
     if(process == null) {
-      throw new ProcessIdNotFoundServiceException(this.processId);
+      throw new ProcessIdNotFoundServiceException(processId);
     }
-    ownerUser = processpedia.getUserById(this.ownerUserId);
+    ownerUser = processpedia.getUserById(ownerUserId);
     if(ownerUser == null) {
-      throw new UserIdNotFoundServiceException(this.ownerUserId);
+      throw new UserIdNotFoundServiceException(ownerUserId);
     }
     try {
       processpedia.addProcessOwner(toBeOwnerUser, process, ownerUser);
@@ -84,6 +67,7 @@ public class AddProcessOwnerService extends ProcesspediaService<Boolean> {
     }
     return true;
   }
+
 }
 
 

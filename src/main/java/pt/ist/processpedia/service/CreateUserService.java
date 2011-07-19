@@ -1,6 +1,5 @@
-/**
- * Processpedia
- * Copyright (C) 2011 ESW Software Engineering Group
+/*
+ * Copyright 2011 ESW Software Engineering Group
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,38 +13,35 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
 
 package pt.ist.processpedia.service;
 
 import pt.ist.processpedia.domain.Processpedia;
 import pt.ist.processpedia.domain.User;
-
 import pt.ist.processpedia.domain.exception.EmailAlreadyRegisteredDomainException;
-
 import pt.ist.processpedia.service.dto.UserDetailedDto;
 import pt.ist.processpedia.service.dto.UserDto;
-
 import pt.ist.processpedia.service.exception.EmailAlreadyRegisteredServiceException;
 
 public class CreateUserService extends ProcesspediaService<UserDto> {
-  
-  private String name;
-  private String email;
-  private String passwordHash;
-  
+
+  private final String name;
+  private final String email;
+  private final String passwordHash;
+
   public CreateUserService(String name, String email, String passwordHash) {
     this.name = name;
     this.email = email;
     this.passwordHash = passwordHash;
   }
-  
+
   @Override
   public UserDto dispatch() throws EmailAlreadyRegisteredServiceException {
     Processpedia processpedia = getProcesspedia();
     User user = null;
     try {
-      user = processpedia.createNewUser(this.name, this.email, this.passwordHash);
+      user = processpedia.createNewUser(name, email, passwordHash);
     } catch(EmailAlreadyRegisteredDomainException e) {
       user = e.getUser();
       UserDetailedDto userDto = new UserDetailedDto(user.getId(), user.getName(), user.getEmail());
@@ -53,5 +49,5 @@ public class CreateUserService extends ProcesspediaService<UserDto> {
     }
     return new UserDetailedDto(user.getId(), user.getName(), user.getEmail());
   }
-  
+
 }

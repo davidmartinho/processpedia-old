@@ -1,6 +1,5 @@
-/**
- * Processpedia
- * Copyright (C) 2011 ESW Software Engineering Group
+/*
+ * Copyright 2011 ESW Software Engineering Group
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,9 +13,11 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
 
 package pt.ist.processpedia.service;
+
+import java.util.Set;
 
 import pt.ist.processpedia.domain.Processpedia;
 import pt.ist.processpedia.domain.Request;
@@ -25,13 +26,11 @@ import pt.ist.processpedia.service.dto.DtoMapper;
 import pt.ist.processpedia.service.dto.RequestDto;
 import pt.ist.processpedia.service.exception.UserIdNotFoundServiceException;
 
-import java.util.Set;
-
 public class GetUserExecutingRequestSetByUserId extends ProcesspediaService<Set<RequestDto>> {
 
-  private Integer userId;
+  private final String userId;
 
-  public GetUserExecutingRequestSetByUserId(Integer userId) {
+  public GetUserExecutingRequestSetByUserId(String userId) {
     this.userId = userId;
   }
 
@@ -45,5 +44,5 @@ public class GetUserExecutingRequestSetByUserId extends ProcesspediaService<Set<
     Set<Request> executingRequestSet = user.getExecutingRequestSet();
     return DtoMapper.createRequestDtoSetFromRequestSet(executingRequestSet);
   }
-  
+
 }

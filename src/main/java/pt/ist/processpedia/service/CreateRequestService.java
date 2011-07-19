@@ -22,25 +22,21 @@ import pt.ist.processpedia.domain.Processpedia;
 import pt.ist.processpedia.domain.Process;
 import pt.ist.processpedia.domain.Request;
 import pt.ist.processpedia.domain.User;
-
 import pt.ist.processpedia.domain.exception.UserDoesNotOwnProcessDomainException;
-
 import pt.ist.processpedia.service.dto.DtoMapper;
-
 import pt.ist.processpedia.service.dto.RequestDto;
-
 import pt.ist.processpedia.service.exception.ProcessIdNotFoundServiceException;
 import pt.ist.processpedia.service.exception.UserIdNotFoundServiceException;
 import pt.ist.processpedia.service.exception.UserDoesNotOwnProcessServiceException;
 
 public class CreateRequestService extends ProcesspediaService<RequestDto> {
+
+  private final String processId;
+  private final String userId;
+  private final String title;
+  private final String description;
   
-  private Integer processId;
-  private Integer userId;
-  private String title;
-  private String description;
-  
-  public CreateRequestService(Integer processId, Integer userId, String title, String description) {
+  public CreateRequestService(String processId, String userId, String title, String description) {
     this.processId = processId;
     this.userId = userId;
     this.title = title;
@@ -51,16 +47,16 @@ public class CreateRequestService extends ProcesspediaService<RequestDto> {
   public RequestDto dispatch() throws ProcessIdNotFoundServiceException, UserIdNotFoundServiceException, UserDoesNotOwnProcessServiceException {
     Processpedia processpedia = getProcesspedia();
     Request request = null;
-    User user = processpedia.getUserById(this.userId);
+    User user = processpedia.getUserById(userId);
     if(user==null) {
-      throw new UserIdNotFoundServiceException(this.userId);
+      throw new UserIdNotFoundServiceException(userId);
     }
-    Process process = processpedia.getProcessById(this.processId);
+    Process process = processpedia.getProcessById(processId);
     if(process==null) {
-      throw new ProcessIdNotFoundServiceException(this.processId);
+      throw new ProcessIdNotFoundServiceException(processId);
     }
     try {
-      request = processpedia.createNewRequest(process, user, this.title, this.description);
+      request = processpedia.createNewRequest(process, user, title, description);
     } catch(UserDoesNotOwnProcessDomainException e) {
       throw new UserDoesNotOwnProcessServiceException(DtoMapper.createUserDtoFromUser(e.getUser()), DtoMapper.createProcessDtoFromProcess(e.getProcess()));
     }

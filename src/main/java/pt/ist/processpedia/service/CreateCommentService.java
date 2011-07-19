@@ -1,6 +1,5 @@
-/**
- * Processpedia
- * Copyright (C) 2011 ESW Software Engineering Group
+/*
+ * Copyright 2011 ESW Software Engineering Group
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +13,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
 
 package pt.ist.processpedia.service;
 
@@ -30,11 +29,11 @@ import pt.ist.processpedia.service.exception.UserIdNotFoundServiceException;
 
 public class CreateCommentService extends ProcesspediaService<CommentDto> {
 
-  private Integer userId;
-  private Integer requestId;
-  private String commentText;
+  private final String userId;
+  private final String requestId;
+  private final String commentText;
 
-  public CreateCommentService(Integer userId, Integer requestId, String commentText) {
+  public CreateCommentService(String userId, String requestId, String commentText) {
     this.userId = userId;
     this.requestId = requestId;
     this.commentText = commentText;
@@ -43,15 +42,16 @@ public class CreateCommentService extends ProcesspediaService<CommentDto> {
   @Override
   public CommentDto dispatch() throws ProcesspediaServiceException {
     Processpedia processpedia = getProcesspedia();
-    User author = processpedia.getUserById(this.userId);
+    User author = processpedia.getUserById(userId);
     if(author == null) {
-      throw new UserIdNotFoundServiceException(this.userId);
+      throw new UserIdNotFoundServiceException(userId);
     }
-    Request request = processpedia.getRequestById(this.requestId);
+    Request request = processpedia.getRequestById(requestId);
     if(request == null) {
-      throw new RequestIdNotFoundServiceException(this.requestId);
+      throw new RequestIdNotFoundServiceException(requestId);
     }
-    Comment comment = request.createComment(author, this.commentText);
+    Comment comment = request.createComment(author, commentText);
     return DtoMapper.createCommentDtoFromComment(comment);
   }
+
 }

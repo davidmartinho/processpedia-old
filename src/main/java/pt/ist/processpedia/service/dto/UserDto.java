@@ -22,7 +22,7 @@ public class UserDto extends Dto {
   
   String name;
   
-  public UserDto(Integer id, String name) {
+  public UserDto(String id, String name) {
     super(id);
     this.name = name;
   }

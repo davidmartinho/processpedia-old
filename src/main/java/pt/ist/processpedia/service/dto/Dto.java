@@ -20,13 +20,13 @@ package pt.ist.processpedia.service.dto;
 
 public abstract class Dto {
 
-  private Integer id;
+  private String id;
 
-  public Dto(Integer id) {
+  public Dto(String id) {
     this.id = id;
   }
 
-  public Integer getId() {
+  public String getId() {
     return this.id;
   }
   

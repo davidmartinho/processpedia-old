@@ -15,22 +15,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package pt.ist.processpedia.domain;
+package pt.ist.processpedia.service;
 
-import org.joda.time.DateTime;
+import pt.ist.processpedia.domain.Processpedia;
+import pt.ist.processpedia.domain.User;
+import pt.ist.processpedia.service.dto.CommitmentDto;
+import pt.ist.processpedia.service.exception.ProcesspediaServiceException;
 
-public class Comment extends Comment_Base {
+public class CommitToRequestService extends ProcesspediaService<CommitmentDto> {
 
-  /**
-   * Creates a new comment.
-   * @param author the user authoring the comment
-   * @param commentText the text of the comment
-   */
-  public Comment(String commentId, User author, String commentText) {
-    init(commentId);
-    setAuthor(author);
-    setCommentText(commentText);
-    setCreationTimestamp(new DateTime());
+  private final String userId;
+
+  public CommitToRequestService(String userId) {
+    this.userId = userId;
   }
 
+  @Override
+  public CommitmentDto dispatch() throws ProcesspediaServiceException {
+    Processpedia processpedia = getProcesspedia();
+    User executor = processpedia.getUserById(userId);
+    return new CommitmentDto(null, null);
+  }
+  
 }

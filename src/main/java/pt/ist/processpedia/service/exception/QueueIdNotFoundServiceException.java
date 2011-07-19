@@ -1,6 +1,5 @@
-/**
- * Processpedia
- * Copyright (C) 2011 ESW Software Engineering Group
+/*
+ * Copyright 2011 ESW Software Engineering Group
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +13,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
 
 package pt.ist.processpedia.service.exception;
 
@@ -22,14 +21,14 @@ public class QueueIdNotFoundServiceException extends ProcesspediaServiceExceptio
 
   private static final long serialVersionUID = 1L;
 
-  private Integer queueId;
+  private final String queueId;
 
-  public QueueIdNotFoundServiceException(Integer queueId) {
+  public QueueIdNotFoundServiceException(String queueId) {
     this.queueId = queueId;
   }
-  
-  public Integer getQueueId() {
-    return this.queueId;
+
+  public String getQueueId() {
+    return queueId;
   }
 
 }

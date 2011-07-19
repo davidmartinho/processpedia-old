@@ -25,10 +25,10 @@ public class Processpedia extends Processpedia_Base {
    * Initializes the Processpedia application.
    */
   public Processpedia() {
-    setNextProcessId(1);
-    setNextUserId(1);
-    setNextRequestId(1);
-    setNextQueueId(1);
+    setNextProcessId(new Id("1"));
+    setNextUserId(new Id("1"));
+    setNextRequestId(new Id("1"));
+    setNextQueueId(new Id("1"));
   }
   
   /**
@@ -38,8 +38,8 @@ public class Processpedia extends Processpedia_Base {
    */
   public Process createNewProcess(User creator, String title) {
     Process process = new Process(creator, title);
-    process.setId(getNextProcessId());
-    setNextProcessId(getNextProcessId()+1);
+    process.setId(getNextProcessId().toString());
+    setNextProcessId(getNextProcessId().getNextId());
     addProcess(process);
     return process;
   }
@@ -93,8 +93,8 @@ public class Processpedia extends Processpedia_Base {
    */
   public Request createNewRequest(Process process, User creator, String title, String description) throws UserDoesNotOwnProcessDomainException {
     Request request = process.createNewRequest(creator, title, description);
-    request.setId(getNextRequestId());
-    setNextRequestId(getNextRequestId()+1);
+    request.setId(getNextRequestId().toString());
+    setNextRequestId(getNextRequestId().getNextId());
     process.addRequest(request);
     return request;
   }
@@ -109,8 +109,8 @@ public class Processpedia extends Processpedia_Base {
    */
   public Request createNewRequest(Process process, User creator, String title, String description, Request parentRequest) throws UserIsNotExecutingParentRequestDomainException {
     Request request = process.createNewRequest(creator, title, description, parentRequest);
-    request.setId(getNextRequestId());
-    setNextRequestId(getNextRequestId()+1);
+    request.setId(getNextRequestId().toString());
+    setNextRequestId(getNextRequestId().getNextId());
     process.addRequest(request);
     return request;
   }
@@ -129,13 +129,13 @@ public class Processpedia extends Processpedia_Base {
         throw new EmailAlreadyRegisteredDomainException(user);
       }
     }
-    User user = new User(name, email, passwordHash);
-    user.setId(getNextUserId());
-    setNextUserId(getNextUserId()+1);
+    String newUserId = getNextUserId().toString();
+    User user = new User(newUserId, name, email, passwordHash);
+    setNextUserId(getNextUserId().getNextId());
     addUser(user);
     Queue queue = new Queue(user.getName()+"'s Private Queue");
-    queue.setId(getNextQueueId());
-    setNextQueueId(getNextQueueId()+1);
+    queue.setId(getNextQueueId().toString());
+    setNextQueueId(getNextQueueId().getNextId());
     user.setPrivateQueue(queue);
     return user;
   }
@@ -155,14 +155,14 @@ public class Processpedia extends Processpedia_Base {
 
 
   /**
-   * Obtains a request given its id.
-   * @param requestId The id of the request.
-   * @return The request if the id matches, null otherwise.
+   * Obtains a request given its identifier.
+   * @param requestId The identifier of the request
+   * @return The request if the id matches, null otherwise
    */
-  public Request getRequestById(Integer requestId) {
+  public Request getRequestById(String requestId) {
     for(Process process : this.getProcessSet()) {
       for(Request request : process.getRequestSet()) {
-        if(request.getId()==requestId) {
+        if(request.getId().equals(requestId)) {
           return request;
         }
       }
@@ -171,11 +171,11 @@ public class Processpedia extends Processpedia_Base {
   }
 
   /**
-   * Obtains a queue given its id.
-   * @param queueId The id of the queue.
-   * @return The queue if the id matches, null otherwise.
+   * Obtains a queue given its identifier.
+   * @param queueId the identifier of the queue
+   * @return the queue if the identifier matches, null otherwise
    */
-  public Queue getQueueById(Integer queueId) {
+  public Queue getQueueById(String queueId) {
     for(Queue queue : this.getQueueSet()) {
       if(queue.getId().equals(queueId)) {
         return queue;
@@ -197,29 +197,29 @@ public class Processpedia extends Processpedia_Base {
     }
     return null;
   }
-  
+
   /**
-   * Obtains a user given its id.
-   * @param userId The id of the user.
-   * @return The user if the userId matches, null otherwise.
+   * Obtains a user given its identifier.
+   * @param userId the identifier of the user
+   * @return the user if the identifier matches, null otherwise
    */
-  public User getUserById(Integer userId) {
+  public User getUserById(String userId) {
     for(User user : this.getUserSet()) {
-      if(user.getId()==userId) {
+      if(user.getId().equals(userId)) {
         return user;
       }
     }
     return null;
   }
-  
+
   /**
-   * Obtains a process given its id.
-   * @param processId The id of the process.
-   * @return The process if the processId matches, or null otherwise.
+   * Obtains a process given its identifier.
+   * @param processId the identifier of the process
+   * @return The process if the identifier matches, or null otherwise
    */
-  public Process getProcessById(Integer processId) {
+  public Process getProcessById(String processId) {
     for(Process process : getProcessSet()) {
-      if(process.getId()==processId) {
+      if(process.getId().equals(processId)) {
         return process;
       }
     }
@@ -250,8 +250,8 @@ public class Processpedia extends Processpedia_Base {
    */
   public Queue createNewQueue(String name, User user) {
     Queue queue = new Queue(name);
-    queue.setId(getNextQueueId());
-    setNextQueueId(getNextQueueId()+1);
+    queue.setId(getNextQueueId().toString());
+    setNextQueueId(getNextQueueId().getNextId());
     return queue;
   }
 

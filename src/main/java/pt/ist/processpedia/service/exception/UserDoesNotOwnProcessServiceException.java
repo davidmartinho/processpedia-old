@@ -1,6 +1,5 @@
-/**
- * Processpedia
- * Copyright (C) 2011 ESW Software Engineering Group
+/*
+ * Copyright 2011 ESW Software Engineering Group
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +13,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
 
 package pt.ist.processpedia.service.exception;
 
@@ -22,23 +21,23 @@ import pt.ist.processpedia.service.dto.ProcessDto;
 import pt.ist.processpedia.service.dto.UserDto;
 
 public class UserDoesNotOwnProcessServiceException extends ProcesspediaServiceException {
-  
+
   private static final long serialVersionUID = 1L;
 
-  private UserDto userDto;
-  private ProcessDto processDto;
+  private final UserDto userDto;
+  private final ProcessDto processDto;
 
   public UserDoesNotOwnProcessServiceException(UserDto userDto, ProcessDto processDto) {
     this.processDto = processDto;
     this.userDto = userDto;
   }
-  
+
   public UserDto getUserDto() {
-    return this.userDto;
+    return userDto;
   }
 
   public ProcessDto getProcessDto() {
-    return this.processDto;
+    return processDto;
   }
 
 }

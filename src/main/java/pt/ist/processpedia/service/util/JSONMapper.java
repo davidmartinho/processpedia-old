@@ -23,19 +23,19 @@ import pt.ist.processpedia.service.dto.*;
 public class JSONMapper implements Mapper {
 
   public String fromUserDto(UserDto userDto) {
-    return "{\"id\": \"urn:pt:ist:ciist:user:"+userDto.getId()+", \"name\": \""+userDto.getName()+"\"}";
+    return "{\"id\": \"urn:pt.ist.ciist:user:"+userDto.getId()+", \"name\": \""+userDto.getName()+"\"}";
   }
 
   public String fromUserDetailedDto(UserDetailedDto userDetailedDto) {
-    return "{\"id\": \"urn:pt:ist:ciist:user:"+userDetailedDto.getId()+", \"name\": \""+userDetailedDto.getName()+"\", \"email\": \""+userDetailedDto.getEmail()+"}";
+    return "{\"id\": \"urn:pt.ist.ciist:user:"+userDetailedDto.getId()+", \"name\": \""+userDetailedDto.getName()+"\", \"email\": \""+userDetailedDto.getEmail()+"}";
   }
   
   public String fromProcessDto(ProcessDto processDto) {
-    return "{\"id\": \"urn:pt:ist:ciist:process:"+processDto.getId()+", \"title\": \""+processDto.getTitle()+"\", \"open\": "+processDto.isOpen()+"}";
+    return "{\"id\": \"urn:pt.ist.ciist:process:"+processDto.getId()+", \"title\": \""+processDto.getTitle()+"\", \"open\": "+processDto.isOpen()+"}";
   }
 
   public String fromQueueDto(QueueDto queueDto) {
-    return "{\"id\": \"urn:pt:ist:ciist:queue:"+queueDto.getId()+"\", \"name\": \""+queueDto.getName()+"\"}";
+    return "{\"id\": \"urn:pt.ist.ciist:queue:"+queueDto.getId()+"\", \"name\": \""+queueDto.getName()+"\"}";
   }
 
   public String fromQueueDetailedDto(QueueDetailedDto queueDetailedDto) {
@@ -49,11 +49,11 @@ public class JSONMapper implements Mapper {
       }
       i++;
     }
-    return "{\"id\": \"urn:pt:ist:ciist:queue:"+queueDetailedDto.getId()+", \"name\": \""+queueDetailedDto.getName()+"\", \"childQueues\": ["+childQueuesJson+"] }";
+    return "{\"id\": \"urn:pt.ist.ciist:queue:"+queueDetailedDto.getId()+", \"name\": \""+queueDetailedDto.getName()+"\", \"childQueues\": ["+childQueuesJson+"] }";
   }
 
   public String fromRequestDto(RequestDto requestDto) {
-    return "{\"id\": \"urn:pt:ist:ciist:request:"+requestDto.getId()+", \"title\": \""+requestDto.getTitle()+"\", \"description\": \""+requestDto.getDescription()+"\", \"initiator\": "+fromUserDto(requestDto.getInitiator())+"}";
+    return "{\"id\": \"urn:pt.ist.ciist:request:"+requestDto.getId()+", \"title\": \""+requestDto.getTitle()+"\", \"description\": \""+requestDto.getDescription()+"\", \"initiator\": "+fromUserDto(requestDto.getInitiator())+"}";
   }
 
 }

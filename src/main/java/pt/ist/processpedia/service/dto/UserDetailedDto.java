@@ -22,7 +22,7 @@ public class UserDetailedDto extends UserDto {
 
  private String email;
 
- public UserDetailedDto(Integer id, String name, String email) {
+ public UserDetailedDto(String id, String name, String email) {
    super(id, name);
    this.email = email;
  }

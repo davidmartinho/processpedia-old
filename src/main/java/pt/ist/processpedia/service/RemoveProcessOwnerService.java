@@ -1,6 +1,5 @@
-/**
- * Processpedia
- * Copyright (C) 2011 ESW Software Engineering Group
+/*
+ * Copyright 2011 ESW Software Engineering Group
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,14 +13,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
 
 package pt.ist.processpedia.service;
 
 import pt.ist.processpedia.domain.Processpedia;
 import pt.ist.processpedia.domain.User;
 import pt.ist.processpedia.domain.Process;
-
 import pt.ist.processpedia.domain.exception.UserDoesNotOwnProcessDomainException;
 import pt.ist.processpedia.service.dto.DtoMapper;
 import pt.ist.processpedia.service.exception.ProcessIdNotFoundServiceException;
@@ -30,11 +28,11 @@ import pt.ist.processpedia.service.exception.UserIdNotFoundServiceException;
 
 public class RemoveProcessOwnerService extends ProcesspediaService<Boolean> {
 
-  private Integer userId;
-  private Integer ownerToBeRemovedUserId;
-  private Integer processId;
+  private final String userId;
+  private final String ownerToBeRemovedUserId;
+  private final String processId;
 
-  public RemoveProcessOwnerService(Integer userId, Integer ownerToBeRemovedUserId, Integer processId) {
+  public RemoveProcessOwnerService(String userId, String ownerToBeRemovedUserId, String processId) {
     this.userId = userId;
     this.ownerToBeRemovedUserId = ownerToBeRemovedUserId;
     this.processId = processId;
@@ -43,17 +41,17 @@ public class RemoveProcessOwnerService extends ProcesspediaService<Boolean> {
   @Override
   public Boolean dispatch() throws UserIdNotFoundServiceException, ProcessIdNotFoundServiceException {
     Processpedia processpedia = getProcesspedia();
-    User user = processpedia.getUserById(this.userId);
+    User user = processpedia.getUserById(userId);
     if(user == null) {
-      throw new UserIdNotFoundServiceException(this.userId);
+      throw new UserIdNotFoundServiceException(userId);
     }
-    User ownerToBeRemovedUser = processpedia.getUserById(this.ownerToBeRemovedUserId);
+    User ownerToBeRemovedUser = processpedia.getUserById(ownerToBeRemovedUserId);
     if(ownerToBeRemovedUser == null) {
-      throw new UserIdNotFoundServiceException(this.ownerToBeRemovedUserId);
+      throw new UserIdNotFoundServiceException(ownerToBeRemovedUserId);
     }
-    Process process = processpedia.getProcessById(this.processId);
+    Process process = processpedia.getProcessById(processId);
     if(process == null) {
-      throw new ProcessIdNotFoundServiceException(this.processId);
+      throw new ProcessIdNotFoundServiceException(processId);
     }
     try {
       processpedia.removeProcessOwner(ownerToBeRemovedUser, process, user);
@@ -62,5 +60,5 @@ public class RemoveProcessOwnerService extends ProcesspediaService<Boolean> {
     }
     return true;
   }
-  
+
 }

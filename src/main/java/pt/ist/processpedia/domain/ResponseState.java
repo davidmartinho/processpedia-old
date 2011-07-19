@@ -17,20 +17,6 @@
 
 package pt.ist.processpedia.domain;
 
-import org.joda.time.DateTime;
-
-public class Comment extends Comment_Base {
-
-  /**
-   * Creates a new comment.
-   * @param author the user authoring the comment
-   * @param commentText the text of the comment
-   */
-  public Comment(String commentId, User author, String commentText) {
-    init(commentId);
-    setAuthor(author);
-    setCommentText(commentText);
-    setCreationTimestamp(new DateTime());
-  }
-
+public enum ResponseState {
+  CONSTRUCTION, PENDING, ACCEPTED, REJECTED;
 }

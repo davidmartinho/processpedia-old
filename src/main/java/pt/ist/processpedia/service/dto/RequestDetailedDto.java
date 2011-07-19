@@ -36,7 +36,7 @@ public class RequestDetailedDto extends RequestDto {
    * @param commentDtoSet The set of comment DTOs that are associated to the comment.
    * @param childRequestDtoSet The set of child request DTOs made in the context of the request.
    */
-  public RequestDetailedDto(Integer id, String title, String description, UserDto initiator, Set<CommentDto> commentDtoSet, Set<RequestDto> childRequestDtoSet) {
+  public RequestDetailedDto(String id, String title, String description, UserDto initiator, Set<CommentDto> commentDtoSet, Set<RequestDto> childRequestDtoSet) {
     super(id,title,description,initiator);
     this.commentDtoSet = commentDtoSet;
     this.childRequestDtoSet = childRequestDtoSet;

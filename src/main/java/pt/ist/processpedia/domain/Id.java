@@ -17,20 +17,24 @@
 
 package pt.ist.processpedia.domain;
 
-import org.joda.time.DateTime;
+public class Id {
 
-public class Comment extends Comment_Base {
+  private final Long id;
 
-  /**
-   * Creates a new comment.
-   * @param author the user authoring the comment
-   * @param commentText the text of the comment
-   */
-  public Comment(String commentId, User author, String commentText) {
-    init(commentId);
-    setAuthor(author);
-    setCommentText(commentText);
-    setCreationTimestamp(new DateTime());
+  public Id(String id) {
+    this.id = new Long(id);
+  }
+
+  public Id(Long id) {
+    this.id = id;
+  }
+
+  public Id getNextId() {
+    return new Id(id);
+  }
+
+  public String toString() {
+    return id.toString();
   }
 
 }

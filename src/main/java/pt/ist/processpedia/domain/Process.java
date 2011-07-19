@@ -17,15 +17,14 @@
 
 package pt.ist.processpedia.domain;
 
+import java.util.Set;
+import java.util.HashSet;
+
 import org.joda.time.DateTime;
 
-import pt.ist.processpedia.domain.exception.NoPermissionToCloseProcessDomainException;
 import pt.ist.processpedia.domain.exception.NoPermissionToCreateProcessDomainException;
 import pt.ist.processpedia.domain.exception.UserDoesNotOwnProcessDomainException;
 import pt.ist.processpedia.domain.exception.UserIsNotExecutingParentRequestDomainException;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * This class represents a business process execution supported by the Processpedia Workflow System environment.

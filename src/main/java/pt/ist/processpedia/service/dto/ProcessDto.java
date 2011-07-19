@@ -32,7 +32,7 @@ public class ProcessDto extends Dto {
    * @param title The title of the process.
    * @param isOpen The boolean representative value of the process open state.
    */
-  public ProcessDto(Integer id, String title, Boolean isOpen) {
+  public ProcessDto(String id, String title, Boolean isOpen) {
     super(id);
     this.title = title;
     this.isOpen = isOpen;

@@ -1,6 +1,5 @@
-/**
- * Processpedia
- * Copyright (C) 2011 ESW Software Engineering Group
+/*
+ * Copyright 2011 ESW Software Engineering Group
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,37 +13,35 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
 
 package pt.ist.processpedia.service;
 
 import pt.ist.processpedia.domain.Processpedia;
 import pt.ist.processpedia.domain.Process;
 import pt.ist.processpedia.domain.User;
-
 import pt.ist.processpedia.service.dto.ProcessDto;
-
 import pt.ist.processpedia.service.exception.UserIdNotFoundServiceException;
 
 public class CreateProcessService extends ProcesspediaService<ProcessDto> {
-  
-  private Integer userId;
-  private String title;
-  
-  public CreateProcessService(Integer userId, String title) {
+
+  private final String userId;
+  private final String title;
+
+  public CreateProcessService(String userId, String title) {
     this.userId = userId;
     this.title = title;
   }
-  
+
   @Override
   public ProcessDto dispatch() throws UserIdNotFoundServiceException {
     Processpedia processpedia = getProcesspedia();
-    User creator = processpedia.getUserById(this.userId);
+    User creator = processpedia.getUserById(userId);
     if(creator==null) {
-      throw new UserIdNotFoundServiceException(this.userId);
+      throw new UserIdNotFoundServiceException(userId);
     }
-    Process process = processpedia.createNewProcess(creator, this.title);
+    Process process = processpedia.createNewProcess(creator, title);
     return new ProcessDto(process.getId(), process.getTitle(), process.isOpen());
   }
-  
+
 }

@@ -1,6 +1,5 @@
-/**
- * Processpedia
- * Copyright (C) 2011 ESW Software Engineering Group
+/*
+ * Copyright 2011 ESW Software Engineering Group
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,19 +13,15 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
 
 package pt.ist.processpedia.service;
 
-import pt.ist.processpedia.domain.ProcessState;
 import pt.ist.processpedia.domain.Processpedia;
 import pt.ist.processpedia.domain.Process;
 import pt.ist.processpedia.domain.User;
-
 import pt.ist.processpedia.service.dto.DtoMapper;
 import pt.ist.processpedia.service.dto.ProcessDto;
-import pt.ist.processpedia.service.dto.UserDto;
-
 import pt.ist.processpedia.service.exception.ProcessIdNotFoundServiceException;
 import pt.ist.processpedia.service.exception.ProcesspediaServiceException;
 import pt.ist.processpedia.service.exception.UserDoesNotParticipateInProcessServiceException;
@@ -34,10 +29,10 @@ import pt.ist.processpedia.service.exception.UserIdNotFoundServiceException;
 
 public class GetProcessByIdService extends ProcesspediaService<ProcessDto> {
 
-  private Integer processId;
-  private Integer userId;
+  private final String processId;
+  private final String userId;
 
-  public GetProcessByIdService(Integer processId, Integer userId) {
+  public GetProcessByIdService(String processId, String userId) {
     this.processId = processId;
     this.userId = userId;
   }
@@ -45,13 +40,13 @@ public class GetProcessByIdService extends ProcesspediaService<ProcessDto> {
   @Override
   public ProcessDto dispatch() throws ProcesspediaServiceException {
     Processpedia processpedia = getProcesspedia();
-    User user = processpedia.getUserById(this.userId);
+    User user = processpedia.getUserById(userId);
     if(user==null) {
-      throw new UserIdNotFoundServiceException(this.userId);
+      throw new UserIdNotFoundServiceException(userId);
     }
-    Process process = processpedia.getProcessById(this.processId);
+    Process process = processpedia.getProcessById(processId);
     if(process==null) {
-      throw new ProcessIdNotFoundServiceException(this.processId);
+      throw new ProcessIdNotFoundServiceException(processId);
     }
     if(process.hasParticipant(user)) {
       return new ProcessDto(process.getId(), process.getTitle(), process.isOpen());
@@ -59,4 +54,5 @@ public class GetProcessByIdService extends ProcesspediaService<ProcessDto> {
       throw new UserDoesNotParticipateInProcessServiceException(DtoMapper.createUserDtoFromUser(user), process.getId());
     }
   }
+
 }

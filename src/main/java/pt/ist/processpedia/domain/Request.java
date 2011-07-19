@@ -90,7 +90,7 @@ public class Request extends Request_Base {
    * @return The created comment.
    */
   public Comment createComment(User author, String commentText) {
-    Comment comment = new Comment(author, commentText);
+    Comment comment = new Comment(null, author, commentText);
     addComment(comment);
     return comment;
   }

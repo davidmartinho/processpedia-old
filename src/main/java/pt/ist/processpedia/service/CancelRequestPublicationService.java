@@ -1,6 +1,5 @@
-/**
- * Processpedia
- * Copyright (C) 2011 ESW Software Engineering Group
+/*
+ * Copyright 2011 ESW Software Engineering Group
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,14 +13,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
 
 package pt.ist.processpedia.service;
 
 import pt.ist.processpedia.domain.Processpedia;
 import pt.ist.processpedia.domain.Request;
 import pt.ist.processpedia.domain.User;
-
 import pt.ist.processpedia.domain.exception.UserIsNotRequestInitiatorDomainException;
 import pt.ist.processpedia.service.dto.DtoMapper;
 import pt.ist.processpedia.service.exception.ProcesspediaServiceException;
@@ -31,10 +29,10 @@ import pt.ist.processpedia.service.exception.UserIsNotRequestInitiatorServiceExc
 
 public class CancelRequestPublicationService extends ProcesspediaService<Boolean> {
 
-  private Integer userId;
-  private Integer requestId;
+  private final String userId;
+  private final String requestId;
 
-  public CancelRequestPublicationService(Integer requestId, Integer userId) {
+  public CancelRequestPublicationService(String requestId, String userId) {
     this.userId = userId;
     this.requestId = requestId;
   }
@@ -42,13 +40,13 @@ public class CancelRequestPublicationService extends ProcesspediaService<Boolean
   @Override
   public Boolean dispatch() throws ProcesspediaServiceException {
     Processpedia processpedia = getProcesspedia();
-    User user = processpedia.getUserById(this.userId);
+    User user = processpedia.getUserById(userId);
     if(user == null) {
-      throw new UserIdNotFoundServiceException(this.userId);
+      throw new UserIdNotFoundServiceException(userId);
     }
-    Request request = processpedia.getRequestById(this.requestId);
+    Request request = processpedia.getRequestById(requestId);
     if(request == null) {
-      throw new RequestIdNotFoundServiceException(this.requestId);
+      throw new RequestIdNotFoundServiceException(requestId);
     }
     try {
       user.unpublishRequest(request);
@@ -57,5 +55,5 @@ public class CancelRequestPublicationService extends ProcesspediaService<Boolean
     }
     return true;
   }
-  
+
 }

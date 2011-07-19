@@ -31,7 +31,7 @@ public class RequestDto extends Dto {
    * @param description The description of the request.
    * @param initiator The User dto of the request initiator.
    */
-  public RequestDto(Integer id, String title, String description, UserDto initiator) {
+  public RequestDto(String id, String title, String description, UserDto initiator) {
     super(id);
     this.initiator = initiator;
     this.title = title;

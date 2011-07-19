@@ -1,6 +1,5 @@
-/**
- * Processpedia
- * Copyright (C) 2011 ESW Software Engineering Group
+/*
+ * Copyright 2011 ESW Software Engineering Group
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,33 +13,30 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
 
 package pt.ist.processpedia.service.exception;
 
-import pt.ist.processpedia.domain.User;
-import pt.ist.processpedia.domain.Request;
-
-import java.net.UnknownServiceException;
+import pt.ist.processpedia.service.dto.UserDto;
 
 public class NoPermissionToReadRequestServiceException extends ProcesspediaServiceException {
 
-  private static long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-  private User user;
-  private Integer requestId;
+  private final UserDto userDto;
+  private final String requestId;
 
-  public NoPermissionToReadRequestServiceException(User user, Integer requestId) {
-    this.user = user;
+  public NoPermissionToReadRequestServiceException(UserDto userDto, String requestId) {
+    this.userDto = userDto;
     this.requestId = requestId;
   }
 
-  public User getUser() {
-    return this.user;
+  public UserDto getUserDto() {
+    return userDto;
   }
 
-  public Integer getRequestId() {
-    return this.requestId;
+  public String getRequestId() {
+    return requestId;
   }
-  
+
 }

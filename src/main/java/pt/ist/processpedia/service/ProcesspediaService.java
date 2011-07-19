@@ -1,6 +1,5 @@
-/**
- * Processpedia
- * Copyright (C) 2011 ESW Software Engineering Group
+/*
+ * Copyright 2011 ESW Software Engineering Group
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +13,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
 
 package pt.ist.processpedia.service;
 
@@ -22,14 +21,12 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.pstm.Transaction;
 
 import pt.ist.processpedia.domain.Processpedia;
-import pt.ist.processpedia.domain.exception.ProcesspediaDomainException;
-
 import pt.ist.processpedia.service.exception.ProcesspediaServiceException;
 
 public abstract class ProcesspediaService<T> {
-  
+
   public abstract T dispatch() throws ProcesspediaServiceException;
-  
+
   public T execute() {
     T result = null;
     Transaction.begin();
@@ -42,9 +39,9 @@ public abstract class ProcesspediaService<T> {
     Transaction.commit();
     return result;
   }
-  
+
   public final Processpedia getProcesspedia() {
     return FenixFramework.getRoot();
   }
-  
+
 }

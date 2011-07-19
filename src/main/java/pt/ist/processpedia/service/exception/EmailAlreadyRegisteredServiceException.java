@@ -1,6 +1,5 @@
-/**
- * Processpedia
- * Copyright (C) 2011 ESW Software Engineering Group
+/*
+ * Copyright 2011 ESW Software Engineering Group
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +13,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
 
 package pt.ist.processpedia.service.exception;
 
@@ -24,14 +23,14 @@ public class EmailAlreadyRegisteredServiceException extends ProcesspediaServiceE
 
   private static final long serialVersionUID = 1L;
 
-  private UserDetailedDto userDto;
+  private final UserDetailedDto userDto;
 
   public EmailAlreadyRegisteredServiceException(UserDetailedDto userDto) {
     this.userDto = userDto;
   }
-  
+
   public UserDetailedDto getUserDto() {
-    return this.userDto;
+    return userDto;
   }
 
 }
