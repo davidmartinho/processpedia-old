@@ -1,6 +1,5 @@
-/**
- * Processpedia
- * Copyright (C) 2011 ESW Software Engineering Group
+/*
+ * Copyright 2011 ESW Software Engineering Group
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +13,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
 
 package pt.ist.processpedia.domain;
 
@@ -24,8 +23,8 @@ public class Comment extends Comment_Base {
 
   /**
    * Creates a new comment.
-   * @param author The user authoring the comment.
-   * @param commentText The text of the comment..
+   * @param author the user authoring the comment
+   * @param commentText the text of the comment
    */
   public Comment(User author, String commentText) {
     setAuthor(author);
