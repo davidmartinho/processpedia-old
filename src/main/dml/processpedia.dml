@@ -29,6 +29,10 @@ class Request extends DomainObject {
   DateTime completionTimestamp;
 }
 
+class Commitment extends DomainObject {
+  DateTime commitmentTimestamp;
+}
+
 class User extends DomainObject {
   String name;
   String email;
@@ -92,6 +96,20 @@ relation UsersExecuteRequests {
 relation RequestsOccurInTheContextOfAProcess {
   Process playsRole process;
   Request playsRole request {
+    multiplicity *;
+  }
+}
+
+relation UsersMakeCommitments {
+  User playsRole user;
+  Commitment playsRole commitment {
+    multiplicity *;
+  }
+}
+
+relation CommitmentsAreMadeToARequest {
+  Request playsRole request;
+  Commitment playsRole commitment {
     multiplicity *;
   }
 }
