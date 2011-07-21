@@ -4,7 +4,6 @@ enum pt.ist.processpedia.domain.ProcessState as ProcessState;
 enum pt.ist.processpedia.domain.RequestState as RequestState;
 enum pt.ist.processpedia.domain.ResponseState as ResponseState;
 
-
 valueType pt.ist.processpedia.domain.Id as Id {
   externalizeWith {
     String toString();
@@ -12,12 +11,14 @@ valueType pt.ist.processpedia.domain.Id as Id {
 }
 
 class Processpedia {
-  Id nextProcessId;
   Id nextUserId;
-  Id nextQueueId;
+  Id nextProcessId;
   Id nextRequestId;
   Id nextCommitmentId;
   Id nextResponseId;
+  Id nextTagId;
+  Id nextCommentId;
+  Id nextQueueId;
 }
 
 class DomainObject {
@@ -25,15 +26,12 @@ class DomainObject {
 }
 
 class Process extends DomainObject {
-  String title;
   ProcessState state;
   DateTime creationTimestamp;
   DateTime closeTimestamp;
 }
 
 class Request extends DomainObject {
-  String title;
-  String description;
   RequestState state;
   DateTime creationTimestamp;
   DateTime completionTimestamp;
@@ -184,16 +182,40 @@ relation UsersHaveAPrivateQueue {
   Queue playsRole privateQueue;
 }
 
-relation RequestsHaveComments {
+relation RequestMayHaveADescription {
   Request playsRole request;
-  Comment playsRole comment {
-    multiplicity *;
-  }
+  Comment playsRole descriptionComment;
 }
 
 relation UserAuthorComments {
   User playsRole author;
   Comment playsRole comment {
+    multiplicity *;
+  }
+}
+
+class Tag extends DomainObject {
+  String keyword;
+}
+
+relation ProcessHasATitle {
+  Process playsRole process;
+  Tag playsRole titleTag;
+}
+
+relation RequestHasSubject {
+  Request playsRole request;
+  Tag playsRole subjectTag;
+}
+
+relation ProcessHasADescription {
+  Process playsRole process;
+  Comment playsRole descriptionComment;
+}
+
+relation CommentMayBeReplied {
+  Comment playsRole comment;
+  Comment playsRole reply {
     multiplicity *;
   }
 }

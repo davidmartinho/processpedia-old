@@ -17,9 +17,12 @@
 
 package pt.ist.processpedia.domain;
 
+import pt.ist.fenixframework.FenixFramework;
 import pt.ist.processpedia.domain.exception.*;
 
-public class Processpedia extends Processpedia_Base {
+import pt.ist.processpedia.domain.DomainObject.IdFactory;
+
+public class Processpedia extends Processpedia_Base implements IdFactory {
 
   /**
    * Initializes the Processpedia application.
@@ -28,7 +31,11 @@ public class Processpedia extends Processpedia_Base {
     setNextProcessId(new Id("1"));
     setNextUserId(new Id("1"));
     setNextRequestId(new Id("1"));
+    setNextCommentId(new Id("1"));
+    setNextTagId(new Id("1"));
+    setNextResponseId(new Id("1"));
     setNextQueueId(new Id("1"));
+    setNextCommitmentId(new Id("1"));
   }
   
   /**
@@ -37,7 +44,7 @@ public class Processpedia extends Processpedia_Base {
    * @return The created process.
    */
   public Process createNewProcess(User creator, String title) {
-    Process process = new Process(creator, title);
+    Process process = new Process(Processpedia.getIdFactory().reserveId(Process.class), creator, title);
     process.setId(getNextProcessId().toString());
     setNextProcessId(getNextProcessId().getNextId());
     addProcess(process);
@@ -254,8 +261,7 @@ public class Processpedia extends Processpedia_Base {
     setNextQueueId(getNextQueueId().getNextId());
     return queue;
   }
-
-
+  
   public void removeProcessOwner(User ownerToBeRemovedUser, Process process, User user) {
     if(!process.isOwnedBy(user)) {
       throw new UserDoesNotOwnProcessDomainException(user, process);
@@ -263,6 +269,37 @@ public class Processpedia extends Processpedia_Base {
     if(!process.isOwnedBy(ownerToBeRemovedUser)) {
       throw new UserDoesNotOwnProcessDomainException(ownerToBeRemovedUser, process);
     }
+  }
+
+  public String reserveId(Class domainClass) {
+    Id id = null;
+    if(domainClass.equals(Comment.class)) {
+      id = getNextCommentId();
+      setNextCommentId(id.getNextId());
+    } else if(domainClass.equals(Process.class)) {
+      id = getNextProcessId();
+      setNextProcessId(id.getNextId());
+    } else if(domainClass.equals(Request.class)) {
+      id = getNextRequestId();
+      setNextRequestId(id.getNextId());
+    } else if(domainClass.equals(Commitment.class)) {
+      id = getNextCommitmentId();
+      setNextCommitmentId(id.getNextId());
+    } else if(domainClass.equals(Response.class)) {
+      id = getNextResponseId();
+      setNextResponseId(id.getNextId());
+    } else if(domainClass.equals(Tag.class)) {
+      id = getNextTagId();
+      setNextTagId(id.getNextId());
+    } else if(domainClass.equals(Queue.class)) {
+      id = getNextQueueId();
+      setNextQueueId(id.getNextId());
+    }
+    return id.toString();
+  }
+
+  public static IdFactory getIdFactory() {
+    return (IdFactory)FenixFramework.getRoot();
   }
 
 }

@@ -1,6 +1,5 @@
-/**
- * Processpedia
- * Copyright (C) 2011 ESW Software Engineering Group
+/*
+ * Copyright 2011 ESW Software Engineering Group
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +13,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
 
 package pt.ist.processpedia.service.util;
 
@@ -53,7 +52,7 @@ public class JSONMapper implements Mapper {
   }
 
   public String fromRequestDto(RequestDto requestDto) {
-    return "{\"id\": \"urn:pt.ist.ciist:request:"+requestDto.getId()+", \"title\": \""+requestDto.getTitle()+"\", \"description\": \""+requestDto.getDescription()+"\", \"initiator\": "+fromUserDto(requestDto.getInitiator())+"}";
+    return "{\"id\": \"urn:pt.ist.ciist:request:"+requestDto.getId()+", \"title\": \""+requestDto.getSubject()+"\", \"description\": \""+requestDto.getDescription()+"\", \"initiator\": "+fromUserDto(requestDto.getInitiator())+"}";
   }
 
 }

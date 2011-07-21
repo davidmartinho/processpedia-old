@@ -62,7 +62,7 @@ public class DtoMapper {
    * @return The dto containing data from the request provided as argument.
    */
   public static RequestDto createRequestDtoFromRequest(Request request) {
-    return new RequestDto(request.getId(), request.getTitle(), request.getDescription(), createUserDtoFromUser(request.getInitiator()));
+    return new RequestDto(request.getId(), request.getSubject(), request.getDescription(), createUserDtoFromUser(request.getInitiator()));
   }
 
   /**

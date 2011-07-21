@@ -1,6 +1,5 @@
-/**
- * Processpedia
- * Copyright (C) 2011 ESW Software Engineering Group
+/*
+ * Copyright 2011 ESW Software Engineering Group
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,32 +13,32 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
 
 package pt.ist.processpedia.service.dto;
 
 public class RequestDto extends Dto {
 
-  private String title;
-  private String description;
-  private UserDto initiator;
+  private final String subject;
+  private final String description;
+  private final UserDto initiator;
 
   /**
-   * Create a new Request DTO containing data about the request's id, title, description and the dto of its initiator.
-   * @param id The id of the request.
-   * @param title The title of the request.
-   * @param description The description of the request.
-   * @param initiator The User dto of the request initiator.
+   * Create a new Request DTO containing data about the request's id, title, description and the dto of its initiator
+   * @param id The id of the request
+   * @param subject The subject of the request
+   * @param description The description of the request
+   * @param initiator The User dto of the request initiator
    */
-  public RequestDto(String id, String title, String description, UserDto initiator) {
+  public RequestDto(String id, String subject, String description, UserDto initiator) {
     super(id);
     this.initiator = initiator;
-    this.title = title;
+    this.subject = subject;
     this.description = description;
   }
   
-  public String getTitle() {
-    return this.title;
+  public String getSubject() {
+    return this.subject;
   }
   
   public String getDescription() {

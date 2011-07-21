@@ -23,14 +23,47 @@ public class Comment extends Comment_Base {
 
   /**
    * Creates a new comment.
+   * @param commentId the identifier of the new comment
    * @param author the user authoring the comment
    * @param commentText the text of the comment
    */
   public Comment(String commentId, User author, String commentText) {
+    this(commentId, author, commentText, new DateTime());
+  }
+
+  /**
+   * Creates a new comment at a particular timestamp
+   * @param commentId the identifier of the new comment
+   * @param author the user authoring the comment
+   * @param commentText the text of the comment
+   * @param creationTimestamp the timestamp at which the comment is created
+   */
+  public Comment(String commentId, User author, String commentText, DateTime creationTimestamp) {
     init(commentId);
     setAuthor(author);
     setCommentText(commentText);
-    setCreationTimestamp(new DateTime());
+    setCreationTimestamp(creationTimestamp);
+  }
+
+  /**
+   * Associates a new reply to the comment.
+   * @param commentId the identifier of the comment
+   * @param author the user authoring the reply
+   * @param commentText the text of the reply
+   */
+  public void reply(String commentId, User author, String commentText) {
+    this.addReply(new Comment(commentId, author, commentText));
+  }
+
+  /**
+   * Associates a new reply to the comment at a particular timestamp
+   * @param commentId the identifier of the comment
+   * @param author the user authoring the reply
+   * @param commentText the text of the reply
+   * @param creationTimestamp the timestamp at which the comment is created
+   */
+  public void reply(String commentId, User author, String commentText, DateTime creationTimestamp) {
+    this.addReply(new Comment(commentId, author, commentText, creationTimestamp));
   }
 
 }

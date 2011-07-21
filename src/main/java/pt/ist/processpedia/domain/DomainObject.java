@@ -17,10 +17,20 @@
 
 package pt.ist.processpedia.domain;
 
+import pt.ist.fenixframework.FenixFramework;
+
 public abstract class DomainObject extends DomainObject_Base {
 
+  /**
+   * Initializes a new domain object with a given id.
+   * @param id the identifier of the new domain object
+   */
   public void init(String id) {
     setId(id);
+  }
+
+  public interface IdFactory {
+    public String reserveId(Class domainClass);
   }
 
 }

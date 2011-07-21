@@ -23,13 +23,13 @@ public class Request extends Request_Base {
 
   /**
    * Creates a new request.
-   * @param initiator The user initiating the request.
-   * @param title The title of the request.
-   * @param description A more detailed description of the request rationale.
+   * @param initiator the user initiating the request
+   * @param subject the subject of the request
+   * @param description a detailed description of the request
    */
-  public Request(User initiator, String title, String description) {
+  public Request(User initiator, String subject, String description) {
     setInitiator(initiator);
-    setTitle(title);
+    setSubject(subject);
     setDescription(description);
     setState(RequestState.UNPUBLISHED);
     setCreationTimestamp(new DateTime());
@@ -37,14 +37,30 @@ public class Request extends Request_Base {
 
   /**
    * Creates a new sub-request in the context of a particular request.
-   * @param initiator The user initiating the request.
-   * @param title The title of the request.
-   * @param description A more detailed description of the request rationale.
-   * @param parentRequest The request in which this request is being created.
+   * @param initiator the user initiating the request
+   * @param subject the subject of the request
+   * @param description A more detailed description of the request
+   * @param parentRequest the request in which this request is being created
    */
-  public Request(User initiator, String title, String description, Request parentRequest) {
-    this(initiator, title, description);
+  public Request(User initiator, String subject, String description, Request parentRequest) {
+    this(initiator, subject, description);
     setParentRequest(parentRequest);
+  }
+
+  public void setSubject(String subject) {
+    setSubjectTag(new Tag(Processpedia.getIdFactory().reserveId(Tag.class), subject));
+  }
+
+  public String getSubject() {
+    return getSubjectTag().getKeyword();
+  }
+
+  public void setDescription(String description) {
+    setDescriptionComment(new Comment(Processpedia.getIdFactory().reserveId(Comment.class), getInitiator(), description));
+  }
+
+  public String getDescription() {
+    return getDescriptionComment().getCommentText();
   }
 
   /**
@@ -90,8 +106,8 @@ public class Request extends Request_Base {
    * @return The created comment.
    */
   public Comment createComment(User author, String commentText) {
-    Comment comment = new Comment(null, author, commentText);
-    addComment(comment);
+    Comment comment = new Comment(Processpedia.getIdFactory().reserveId(Comment.class), author, commentText);
+    getDescriptionComment().addReply(comment);
     return comment;
   }
   

@@ -33,13 +33,13 @@ public class CreateRequestService extends ProcesspediaService<RequestDto> {
 
   private final String processId;
   private final String userId;
-  private final String title;
+  private final String subject;
   private final String description;
   
-  public CreateRequestService(String processId, String userId, String title, String description) {
+  public CreateRequestService(String processId, String userId, String subject, String description) {
     this.processId = processId;
     this.userId = userId;
-    this.title = title;
+    this.subject = subject;
     this.description = description;
   }
   
@@ -56,11 +56,11 @@ public class CreateRequestService extends ProcesspediaService<RequestDto> {
       throw new ProcessIdNotFoundServiceException(processId);
     }
     try {
-      request = processpedia.createNewRequest(process, user, title, description);
+      request = processpedia.createNewRequest(process, user, subject, description);
     } catch(UserDoesNotOwnProcessDomainException e) {
       throw new UserDoesNotOwnProcessServiceException(DtoMapper.createUserDtoFromUser(e.getUser()), DtoMapper.createProcessDtoFromProcess(e.getProcess()));
     }
-    return new RequestDto(request.getId(), request.getTitle(), request.getDescription(), DtoMapper.createUserDtoFromUser(user));
+    return new RequestDto(request.getId(), request.getSubject(), request.getDescription(), DtoMapper.createUserDtoFromUser(user));
   }
   
 }

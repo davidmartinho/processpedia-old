@@ -22,6 +22,7 @@ import java.util.HashSet;
 
 import org.joda.time.DateTime;
 
+import pt.ist.fenixframework.FenixFramework;
 import pt.ist.processpedia.domain.exception.NoPermissionToCreateProcessDomainException;
 import pt.ist.processpedia.domain.exception.UserDoesNotOwnProcessDomainException;
 import pt.ist.processpedia.domain.exception.UserIsNotExecutingParentRequestDomainException;
@@ -33,15 +34,60 @@ public class Process extends Process_Base {
 
   /**
    * Creates a new process.
-   * @param creator The user that is trying to create the process.
-   * @throws NoPermissionToCreateProcessDomainException If the user has no privileges to create processes.
+   * @param processId the identifier of the new process
+   * @param creator the user creating the process
+   * @throws NoPermissionToCreateProcessDomainException when the user has no privileges to create processes
    */
-  public Process(User creator, String title) throws NoPermissionToCreateProcessDomainException {
+  public Process(String processId, User creator, String title) throws NoPermissionToCreateProcessDomainException {
+    init(processId);
     setCreator(creator);
     addOwner(creator);
     setTitle(title);
     setCreationTimestamp(new DateTime());
     setState(ProcessState.OPEN);
+  }
+
+  /**
+   * Creates a new process.
+   * @param processId the identifier of the new process
+   * @param creator the user creating the process
+   * @param title the title of the process
+   * @param description the description of the process
+   * @param creationTimestamp the timestamp for when the process was created
+   * @throws NoPermissionToCreateProcessDomainException when the user has no privileges to create processes
+   */
+  public Process(String processId, User creator, String title, String description, DateTime creationTimestamp, ProcessState  state) throws NoPermissionToCreateProcessDomainException {
+    init(processId);
+    setCreator(creator);
+    addOwner(creator);
+    setTitle(title);
+    setDescription(description);
+    setCreationTimestamp(creationTimestamp);
+    setState(state);
+  }
+
+  /**
+   * Defines the title of the process.
+   * @param title the string containing the title of the process
+   */
+  public void setTitle(String title) {
+    this.setTitleTag(new Tag(Processpedia.getIdFactory().reserveId(Tag.class), title));
+  }
+
+  public String getTitle() {
+    return getTitleTag().getKeyword();
+  }
+
+  public String getDescription() {
+    return this.getDescriptionComment().getCommentText();
+  }
+
+  /**
+   * Defines the description of the process.
+   * @param description the string describing the process
+   */
+  public void setDescription(String description) {
+    setDescriptionComment(new Comment(Processpedia.getIdFactory().reserveId(Comment.class), getCreator(), description));
   }
   
   /**

@@ -17,36 +17,16 @@
 
 package pt.ist.processpedia.domain;
 
-public class Id {
-
-  private final Long id;
+public class Tag extends Tag_Base {
 
   /**
-   * Creates a new identifier.
-   * @param id the string representation of the identifier
+   * Creates a new tag.
+   * @param tagId the identifier of the tag
+   * @param keyword the keyword associated to the tag
    */
-  public Id(String id) {
-    this.id = new Long(id);
+  public Tag(String tagId, String keyword) {
+    init(tagId);
+    setKeyword(keyword);
   }
-
-  /**
-   * Creates a new identifier.
-   * @param id the long representation of the identifier
-   */
-  public Id(Long id) {
-    this.id = id;
-  }
-
-  /**
-   * Obtains the next id.
-   * @return the next identifier
-   */
-  public Id getNextId() {
-    return new Id(id);
-  }
-  
-  public String toString() {
-    return id.toString();
-  }
-
+    
 }
