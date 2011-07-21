@@ -23,23 +23,20 @@ public class Comment extends Comment_Base {
 
   /**
    * Creates a new comment.
-   * @param commentId the identifier of the new comment
    * @param author the user authoring the comment
    * @param commentText the text of the comment
    */
-  public Comment(String commentId, User author, String commentText) {
-    this(commentId, author, commentText, new DateTime());
+  public Comment(User author, String commentText) {
+    this(author, commentText, new DateTime());
   }
 
   /**
    * Creates a new comment at a particular timestamp
-   * @param commentId the identifier of the new comment
    * @param author the user authoring the comment
    * @param commentText the text of the comment
    * @param creationTimestamp the timestamp at which the comment is created
    */
-  public Comment(String commentId, User author, String commentText, DateTime creationTimestamp) {
-    init(commentId);
+  public Comment(User author, String commentText, DateTime creationTimestamp) {
     setAuthor(author);
     setCommentText(commentText);
     setCreationTimestamp(creationTimestamp);
@@ -47,23 +44,21 @@ public class Comment extends Comment_Base {
 
   /**
    * Associates a new reply to the comment.
-   * @param commentId the identifier of the comment
    * @param author the user authoring the reply
    * @param commentText the text of the reply
    */
-  public void reply(String commentId, User author, String commentText) {
-    this.addReply(new Comment(commentId, author, commentText));
+  public void reply(User author, String commentText) {
+    this.addReply(new Comment(author, commentText));
   }
 
   /**
    * Associates a new reply to the comment at a particular timestamp
-   * @param commentId the identifier of the comment
    * @param author the user authoring the reply
    * @param commentText the text of the reply
    * @param creationTimestamp the timestamp at which the comment is created
    */
-  public void reply(String commentId, User author, String commentText, DateTime creationTimestamp) {
-    this.addReply(new Comment(commentId, author, commentText, creationTimestamp));
+  public void reply(User author, String commentText, DateTime creationTimestamp) {
+    this.addReply(new Comment(author, commentText, creationTimestamp));
   }
 
 }

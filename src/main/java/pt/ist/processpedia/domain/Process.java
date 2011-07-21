@@ -22,7 +22,6 @@ import java.util.HashSet;
 
 import org.joda.time.DateTime;
 
-import pt.ist.fenixframework.FenixFramework;
 import pt.ist.processpedia.domain.exception.NoPermissionToCreateProcessDomainException;
 import pt.ist.processpedia.domain.exception.UserDoesNotOwnProcessDomainException;
 import pt.ist.processpedia.domain.exception.UserIsNotExecutingParentRequestDomainException;
@@ -34,30 +33,24 @@ public class Process extends Process_Base {
 
   /**
    * Creates a new process.
-   * @param processId the identifier of the new process
    * @param creator the user creating the process
+   * @param title the title of the process
    * @throws NoPermissionToCreateProcessDomainException when the user has no privileges to create processes
    */
-  public Process(String processId, User creator, String title) throws NoPermissionToCreateProcessDomainException {
-    init(processId);
-    setCreator(creator);
-    addOwner(creator);
-    setTitle(title);
-    setCreationTimestamp(new DateTime());
-    setState(ProcessState.OPEN);
+  public Process(User creator, String title) throws NoPermissionToCreateProcessDomainException {
+    this(creator, title, "No description", new DateTime(), ProcessState.OPEN);
   }
 
   /**
    * Creates a new process.
-   * @param processId the identifier of the new process
    * @param creator the user creating the process
    * @param title the title of the process
    * @param description the description of the process
    * @param creationTimestamp the timestamp for when the process was created
    * @throws NoPermissionToCreateProcessDomainException when the user has no privileges to create processes
    */
-  public Process(String processId, User creator, String title, String description, DateTime creationTimestamp, ProcessState  state) throws NoPermissionToCreateProcessDomainException {
-    init(processId);
+  public Process(User creator, String title, String description, DateTime creationTimestamp,
+                 ProcessState state) throws NoPermissionToCreateProcessDomainException {
     setCreator(creator);
     addOwner(creator);
     setTitle(title);
@@ -71,7 +64,7 @@ public class Process extends Process_Base {
    * @param title the string containing the title of the process
    */
   public void setTitle(String title) {
-    this.setTitleTag(new Tag(Processpedia.getIdFactory().reserveId(Tag.class), title));
+    this.setTitleTag(new Tag(title));
   }
 
   public String getTitle() {
@@ -87,7 +80,7 @@ public class Process extends Process_Base {
    * @param description the string describing the process
    */
   public void setDescription(String description) {
-    setDescriptionComment(new Comment(Processpedia.getIdFactory().reserveId(Comment.class), getCreator(), description));
+    setDescriptionComment(new Comment(getCreator(), description));
   }
   
   /**
@@ -98,7 +91,8 @@ public class Process extends Process_Base {
    * @return The created request.
    * @throws UserDoesNotOwnProcessDomainException If the creator is not listed as an owner of the process.
    */
-  public Request createNewRequest(User creator, String title, String description) throws UserDoesNotOwnProcessDomainException {
+  public Request createNewRequest(User creator, String title, String description) throws
+      UserDoesNotOwnProcessDomainException {
     if(userOwnsProcess(creator)) {
       Request request = new Request(creator, title, description);
       request.setProcess(this);
@@ -107,16 +101,18 @@ public class Process extends Process_Base {
       throw new UserDoesNotOwnProcessDomainException(creator, this);
     }
   }
-  
+
   /**
    * Creates a new request in the context of another request.
    * @param creator The creator of the request.
    * @param title The title of the request.
    * @param description The description of the request.
    * @param parentRequest The request from which the request being created is originated.
-   * @throws UserIsNotExecutingParentRequestDomainException If the creator is not the current executor of the parentRequest.
+   * @throws UserIsNotExecutingParentRequestDomainException If the creator is not the current executor of the
+   * parentRequest.
    */
-  public Request createNewRequest(User creator, String title, String description, Request parentRequest) throws UserIsNotExecutingParentRequestDomainException {
+  public Request createNewRequest(User creator, String title, String description,
+                                  Request parentRequest) throws UserIsNotExecutingParentRequestDomainException {
     if(parentRequest.getExecutor().equals(creator)) {
       Request request = new Request(creator, title, description, parentRequest);
       request.setProcess(this);
@@ -189,7 +185,8 @@ public class Process extends Process_Base {
   /**
    * Checks if the provided user is a current participant of the process, or if he owns the process.
    * @param user The user for which is being checked a current participation.
-   * @return True if the user is either currently participating in the process or is one of its owners, false otherwise.
+   * @return True if the user is either currently participating in the process or is one of its owners,
+   * false otherwise.
    */
   public Boolean hasParticipant(User user) {
     if(isOwnedBy(user)) {

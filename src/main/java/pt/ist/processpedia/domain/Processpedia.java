@@ -44,9 +44,7 @@ public class Processpedia extends Processpedia_Base implements IdFactory {
    * @return The created process.
    */
   public Process createNewProcess(User creator, String title) {
-    Process process = new Process(Processpedia.getIdFactory().reserveId(Process.class), creator, title);
-    process.setId(getNextProcessId().toString());
-    setNextProcessId(getNextProcessId().getNextId());
+    Process process = new Process(creator, title);
     addProcess(process);
     return process;
   }
@@ -100,8 +98,6 @@ public class Processpedia extends Processpedia_Base implements IdFactory {
    */
   public Request createNewRequest(Process process, User creator, String title, String description) throws UserDoesNotOwnProcessDomainException {
     Request request = process.createNewRequest(creator, title, description);
-    request.setId(getNextRequestId().toString());
-    setNextRequestId(getNextRequestId().getNextId());
     process.addRequest(request);
     return request;
   }
@@ -116,8 +112,6 @@ public class Processpedia extends Processpedia_Base implements IdFactory {
    */
   public Request createNewRequest(Process process, User creator, String title, String description, Request parentRequest) throws UserIsNotExecutingParentRequestDomainException {
     Request request = process.createNewRequest(creator, title, description, parentRequest);
-    request.setId(getNextRequestId().toString());
-    setNextRequestId(getNextRequestId().getNextId());
     process.addRequest(request);
     return request;
   }
@@ -136,13 +130,9 @@ public class Processpedia extends Processpedia_Base implements IdFactory {
         throw new EmailAlreadyRegisteredDomainException(user);
       }
     }
-    String newUserId = getNextUserId().toString();
-    User user = new User(newUserId, name, email, passwordHash);
-    setNextUserId(getNextUserId().getNextId());
+    User user = new User(name, email, passwordHash);
     addUser(user);
     Queue queue = new Queue(user.getName()+"'s Private Queue");
-    queue.setId(getNextQueueId().toString());
-    setNextQueueId(getNextQueueId().getNextId());
     user.setPrivateQueue(queue);
     return user;
   }
@@ -294,6 +284,9 @@ public class Processpedia extends Processpedia_Base implements IdFactory {
     } else if(domainClass.equals(Queue.class)) {
       id = getNextQueueId();
       setNextQueueId(id.getNextId());
+    } else if(domainClass.equals(User.class)) {
+      id = getNextUserId();
+      setNextUserId(id.getNextId());
     }
     return id.toString();
   }

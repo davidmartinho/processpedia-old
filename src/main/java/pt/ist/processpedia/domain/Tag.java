@@ -21,11 +21,9 @@ public class Tag extends Tag_Base {
 
   /**
    * Creates a new tag.
-   * @param tagId the identifier of the tag
    * @param keyword the keyword associated to the tag
    */
-  public Tag(String tagId, String keyword) {
-    init(tagId);
+  public Tag(String keyword) {
     setKeyword(keyword);
   }
     

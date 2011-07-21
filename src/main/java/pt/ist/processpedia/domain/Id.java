@@ -42,7 +42,7 @@ public class Id {
    * @return the next identifier
    */
   public Id getNextId() {
-    return new Id(id);
+    return new Id(id+1);
   }
   
   public String toString() {

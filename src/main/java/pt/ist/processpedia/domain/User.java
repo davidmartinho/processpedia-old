@@ -27,13 +27,11 @@ public class User extends User_Base {
 
   /**
    * Creates a new user.
-   * @param userId the identifier of the new user
    * @param name the name of the new user
    * @param email the email address of the new user
    * @param passwordHash the hash of the new user's password
    */
-  public User(String userId, String name, String email, String passwordHash) {
-    init(userId);
+  public User(String name, String email, String passwordHash) {
     setName(name);
     setEmail(email);
     setPasswordHash(passwordHash);

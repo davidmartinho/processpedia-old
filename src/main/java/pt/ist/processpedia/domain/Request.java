@@ -48,7 +48,7 @@ public class Request extends Request_Base {
   }
 
   public void setSubject(String subject) {
-    setSubjectTag(new Tag(Processpedia.getIdFactory().reserveId(Tag.class), subject));
+    setSubjectTag(new Tag(subject));
   }
 
   public String getSubject() {
@@ -56,7 +56,7 @@ public class Request extends Request_Base {
   }
 
   public void setDescription(String description) {
-    setDescriptionComment(new Comment(Processpedia.getIdFactory().reserveId(Comment.class), getInitiator(), description));
+    setDescriptionComment(new Comment(getInitiator(), description));
   }
 
   public String getDescription() {
@@ -106,7 +106,7 @@ public class Request extends Request_Base {
    * @return The created comment.
    */
   public Comment createComment(User author, String commentText) {
-    Comment comment = new Comment(Processpedia.getIdFactory().reserveId(Comment.class), author, commentText);
+    Comment comment = new Comment(author, commentText);
     getDescriptionComment().addReply(comment);
     return comment;
   }

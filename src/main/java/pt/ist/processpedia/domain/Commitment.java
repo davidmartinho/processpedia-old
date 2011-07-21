@@ -29,7 +29,6 @@ public class Commitment extends Commitment_Base {
    * @param commitmentTimestamp the timestamp for when the commitment was made
    */
   public Commitment(String commitmentId, User user, Request request, DateTime commitmentTimestamp) {
-    init(commitmentId);
     setUser(user);
     setRequest(request);
     setCommitmentTimestamp(commitmentTimestamp);
