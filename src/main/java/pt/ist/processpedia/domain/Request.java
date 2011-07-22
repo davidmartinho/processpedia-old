@@ -55,7 +55,7 @@ public class Request extends Request_Base {
   }
 
   /**
-   * Creates a new request.
+   * Creates a new request with a default claiming policy of one commitment per request.
    * @param initiator the user initiating the request
    * @param subject the subject of the request
    * @param description a detailed description of the request
@@ -66,6 +66,7 @@ public class Request extends Request_Base {
     setDescription(description);
     setState(state);
     setCreationTimestamp(creationTimestamp);
+    addClaimingPolicy(new RequestMaxCommitmentsClaimingPolicy(1));
   }
 
   /**
@@ -81,7 +82,7 @@ public class Request extends Request_Base {
     this(initiator, subject, description, state, creationTimestamp);
     setParentRequest(parentRequest);
   }
-
+  
   public void setSubject(String subject) {
     setSubjectTag(new Tag(subject));
   }

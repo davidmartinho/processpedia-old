@@ -18,10 +18,8 @@
 
 package pt.ist.processpedia.service;
 
-import pt.ist.processpedia.domain.Processpedia;
+import pt.ist.processpedia.domain.*;
 import pt.ist.processpedia.domain.Process;
-import pt.ist.processpedia.domain.Request;
-import pt.ist.processpedia.domain.User;
 import pt.ist.processpedia.domain.exception.UserDoesNotOwnProcessDomainException;
 import pt.ist.processpedia.service.dto.DtoMapper;
 import pt.ist.processpedia.service.dto.RequestDto;

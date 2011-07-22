@@ -21,6 +21,8 @@ import pt.ist.processpedia.domain.exception.CannotCommitToRequestDomainException
 
 public abstract class RequestClaimingPolicy extends RequestClaimingPolicy_Base {
 
+  public static enum TYPE { DEADLINE, MAXIMUM_COMMITMENT }
+
   /**
    * Validates if a given user may claim the request according to the policy defined.
    * @param claimer the user claiming the request

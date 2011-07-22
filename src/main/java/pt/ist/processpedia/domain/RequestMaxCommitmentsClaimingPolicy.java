@@ -26,8 +26,13 @@ public class RequestMaxCommitmentsClaimingPolicy extends RequestMaxCommitmentsCl
     setNumMaxCommitments(numMaxCommitments);
   }
 
+  /**
+   * Validates if the maximum number of commits is not yet met.
+   * @param claimer the user claiming the request
+   * @throws CannotCommitToRequestDomainException when the maximum number of allowed commitments is reached
+   */
   @Override
-  public void validate(User claimer) throws CannotCommitToRequestDomainException {
+  public void validate(User claimer) throws MaxNumberCommitmentsExceededDomainException {
     Request request = getRequest();
     Integer numMaxCommitments = getNumMaxCommitments();
     if(request.getCommitmentCount() >= numMaxCommitments) {

@@ -23,10 +23,18 @@ import pt.ist.processpedia.domain.exception.RequestDeadlineMetDomainException;
 
 public class RequestDeadlineClaimingPolicy extends RequestDeadlineClaimingPolicy_Base {
 
+  /**
+   * Creates a new claiming policy concerning a deadline
+   * @param deadlineTimestamp
+   */
   public RequestDeadlineClaimingPolicy(DateTime deadlineTimestamp) {
     setDeadlineTimestamp(deadlineTimestamp);
   }
 
+  /**
+   * Validates if the deadline timestamp is not yet met.
+   * @param claimer the user claiming the request
+   */
   @Override
   public void validate(User claimer) {
     DateTime now = new DateTime();
