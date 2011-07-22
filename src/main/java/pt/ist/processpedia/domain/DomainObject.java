@@ -31,7 +31,6 @@ public abstract class DomainObject extends DomainObject_Base {
 
   public void initialize() {
     String id = Processpedia.getIdFactory().reserveId(this.getClass());
-    System.out.println("I've just created a "+getClass().getCanonicalName()+" with ID: "+id);
     setId(id);
   }
 
