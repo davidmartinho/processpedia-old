@@ -19,22 +19,24 @@ package pt.ist.processpedia.domain;
 
 import org.joda.time.DateTime;
 
-import pt.ist.processpedia.domain.exception.CannotCommitToRequestDomainException;
-
 public class Commitment extends Commitment_Base {
 
+  /**
+   * Creates a new commitment from a user to a request at the current time.
+   * @param user the user committing to the request
+   * @param request the request to which the user is committing into
+   */
   public Commitment(User user, Request request) {
     this(user, request, new DateTime());
   }
 
   /**
-   * Creates a new commitment from a user to a particular response.
+   * Creates a new commitment from a user to a request at a particular time.
    * @param user the user committing to the request
    * @param request the request to which the user is committing into
    * @param commitmentTimestamp the timestamp for when the commitment was made
    */
-  public Commitment(User user, Request request, DateTime commitmentTimestamp) throws
-      CannotCommitToRequestDomainException {
+  public Commitment(User user, Request request, DateTime commitmentTimestamp) {
     setUser(user);
     setRequest(request);
     setCommitmentTimestamp(commitmentTimestamp);

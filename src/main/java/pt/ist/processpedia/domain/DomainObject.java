@@ -17,8 +17,6 @@
 
 package pt.ist.processpedia.domain;
 
-import pt.ist.fenixframework.FenixFramework;
-
 public abstract class DomainObject extends DomainObject_Base {
 
   /**

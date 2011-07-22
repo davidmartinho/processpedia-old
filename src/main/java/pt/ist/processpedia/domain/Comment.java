@@ -22,7 +22,7 @@ import org.joda.time.DateTime;
 public class Comment extends Comment_Base {
 
   /**
-   * Creates a new comment.
+   * Creates a new comment at the current timestamp.
    * @param author the user authoring the comment
    * @param commentText the text of the comment
    */
@@ -31,7 +31,7 @@ public class Comment extends Comment_Base {
   }
 
   /**
-   * Creates a new comment at a particular timestamp
+   * Creates a new comment at a specified timestamp.
    * @param author the user authoring the comment
    * @param commentText the text of the comment
    * @param creationTimestamp the timestamp at which the comment is created
@@ -43,22 +43,26 @@ public class Comment extends Comment_Base {
   }
 
   /**
-   * Associates a new reply to the comment.
+   * Associates a new reply to the comment at the current timestamp.
    * @param author the user authoring the reply
    * @param commentText the text of the reply
    */
-  public void reply(User author, String commentText) {
-    this.addReply(new Comment(author, commentText));
+  public Comment reply(User author, String commentText) {
+    Comment reply = new Comment(author, commentText);
+    addReply(reply);
+    return reply;
   }
 
   /**
-   * Associates a new reply to the comment at a particular timestamp
+   * Associates a new reply to the comment at a particular timestamp.
    * @param author the user authoring the reply
    * @param commentText the text of the reply
-   * @param creationTimestamp the timestamp at which the comment is created
+   * @param creationTimestamp the timestamp at which the reply is created
    */
-  public void reply(User author, String commentText, DateTime creationTimestamp) {
-    this.addReply(new Comment(author, commentText, creationTimestamp));
+  public Comment reply(User author, String commentText, DateTime creationTimestamp) {
+    Comment reply = new Comment(author, commentText, creationTimestamp);
+    addReply(reply);
+    return reply;
   }
 
 }
