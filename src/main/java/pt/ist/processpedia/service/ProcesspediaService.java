@@ -19,7 +19,6 @@ package pt.ist.processpedia.service;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.pstm.Transaction;
-
 import pt.ist.processpedia.domain.Processpedia;
 import pt.ist.processpedia.service.exception.ProcesspediaServiceException;
 

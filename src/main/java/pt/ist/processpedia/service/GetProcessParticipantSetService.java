@@ -19,8 +19,8 @@ package pt.ist.processpedia.service;
 
 import java.util.Set;
 
-import pt.ist.processpedia.domain.*;
 import pt.ist.processpedia.domain.Process;
+import pt.ist.processpedia.domain.Processpedia;
 import pt.ist.processpedia.service.dto.DtoMapper;
 import pt.ist.processpedia.service.dto.UserDto;
 import pt.ist.processpedia.service.exception.ProcessIdNotFoundServiceException;

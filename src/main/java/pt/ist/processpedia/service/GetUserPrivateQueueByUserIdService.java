@@ -20,7 +20,6 @@ package pt.ist.processpedia.service;
 import pt.ist.processpedia.domain.Processpedia;
 import pt.ist.processpedia.domain.User;
 import pt.ist.processpedia.domain.Queue;
-
 import pt.ist.processpedia.service.dto.DtoMapper;
 import pt.ist.processpedia.service.dto.QueueDto;
 

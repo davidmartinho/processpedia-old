@@ -28,8 +28,8 @@ import pt.ist.processpedia.service.exception.UserIdNotFoundServiceException;
 
 public class CreateQueueService extends ProcesspediaService<QueueDetailedDto> {
 
-  private String name;
-  private String userId;
+  private final String name;
+  private final String userId;
 
   public CreateQueueService(String name, String userId) {
     this.name = name;
