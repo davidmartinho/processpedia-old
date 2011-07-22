@@ -17,11 +17,11 @@
 
 package pt.ist.processpedia.domain;
 
-import pt.ist.processpedia.domain.exception.OldPasswordIsIncorrectDomainException;
-import pt.ist.processpedia.domain.exception.UserIsNotExecutingParentRequestDomainException;
-import pt.ist.processpedia.domain.exception.UserIsNotRequestInitiatorDomainException;
-
 import java.util.Set;
+import java.util.HashSet;
+
+import pt.ist.processpedia.domain.exception.OldPasswordIsIncorrectDomainException;
+import pt.ist.processpedia.domain.exception.UserIsNotRequestInitiatorDomainException;
 
 public class User extends User_Base {
 
@@ -82,4 +82,15 @@ public class User extends User_Base {
     }
   }
 
+  /**
+   * Obtains the set of requests that the user has committed to respond.
+   * @return the set of requests to which the user has committed to
+   */
+  public Set<Request> getCommittedRequestSet() {
+    Set<Request> committedRequestSet = new HashSet<Request>();
+    for(Commitment commitment : getCommitmentSet()) {
+      committedRequestSet.add(commitment.getRequest());
+    }
+    return committedRequestSet;
+  }
 }

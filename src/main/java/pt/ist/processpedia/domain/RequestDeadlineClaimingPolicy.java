@@ -17,6 +17,22 @@
 
 package pt.ist.processpedia.domain;
 
-public enum ProcessState {
-    DRAFT, OPEN, CLOSED;
+import org.joda.time.DateTime;
+
+import pt.ist.processpedia.domain.exception.RequestDeadlineMetDomainException;
+
+public class RequestDeadlineClaimingPolicy extends RequestDeadlineClaimingPolicy_Base {
+
+  public RequestDeadlineClaimingPolicy(DateTime deadlineTimestamp) {
+    setDeadlineTimestamp(deadlineTimestamp);
+  }
+
+  @Override
+  public void validate(User claimer) {
+    DateTime now = new DateTime();
+    if(now.isAfter(getDeadlineTimestamp())) {
+      throw new RequestDeadlineMetDomainException(getRequest(), getDeadlineTimestamp());
+    }
+  }
+
 }

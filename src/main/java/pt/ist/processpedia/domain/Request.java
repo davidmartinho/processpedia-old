@@ -19,7 +19,40 @@ package pt.ist.processpedia.domain;
 
 import org.joda.time.DateTime;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Request extends Request_Base {
+
+  /**
+   * Creates a new unpublished request without a description in the current time.
+   * @param initiator the user initiating the request
+   * @param subject the subject of the request
+   */
+  public Request(User initiator, String subject) {
+    this(initiator, subject, null, RequestState.UNPUBLISHED, new DateTime());
+  }
+
+  /**
+   * Creates a new unpublished request with a description in the current time.
+   * @param initiator the user initiating the request
+   * @param subject the subject of the request
+   */
+  public Request(User initiator, String subject, String description) {
+    this(initiator, subject, description, RequestState.UNPUBLISHED, new DateTime());
+  }
+
+  /**
+   * Creates a new unpublished request with a description in the current time and in the context of a particular
+   * request.
+   * @param initiator the user initiating the request
+   * @param subject the subject of the request
+   * @param description the description of the request
+   * @param parentRequest the request in which this request is created
+   */
+  public Request(User initiator, String subject, String description, Request parentRequest) {
+    this(initiator, subject, description, RequestState.UNPUBLISHED, new DateTime(), parentRequest);
+  }
 
   /**
    * Creates a new request.
@@ -27,23 +60,25 @@ public class Request extends Request_Base {
    * @param subject the subject of the request
    * @param description a detailed description of the request
    */
-  public Request(User initiator, String subject, String description) {
+  public Request(User initiator, String subject, String description, RequestState state, DateTime creationTimestamp) {
     setInitiator(initiator);
     setSubject(subject);
     setDescription(description);
-    setState(RequestState.UNPUBLISHED);
-    setCreationTimestamp(new DateTime());
+    setState(state);
+    setCreationTimestamp(creationTimestamp);
   }
 
   /**
-   * Creates a new sub-request in the context of a particular request.
+   * Creates a new unpublished sub-request with a description in the current time and in the context of a particular 
+   * request.
    * @param initiator the user initiating the request
    * @param subject the subject of the request
    * @param description A more detailed description of the request
    * @param parentRequest the request in which this request is being created
    */
-  public Request(User initiator, String subject, String description, Request parentRequest) {
-    this(initiator, subject, description);
+  public Request(User initiator, String subject, String description, RequestState state,
+                 DateTime creationTimestamp, Request parentRequest) {
+    this(initiator, subject, description, state, creationTimestamp);
     setParentRequest(parentRequest);
   }
 
@@ -56,7 +91,9 @@ public class Request extends Request_Base {
   }
 
   public void setDescription(String description) {
-    setDescriptionComment(new Comment(getInitiator(), description));
+    if(description!=null) {
+      setDescriptionComment(new Comment(getInitiator(), description));
+    }
   }
 
   public String getDescription() {
@@ -64,12 +101,13 @@ public class Request extends Request_Base {
   }
 
   /**
-   * Checks if a given user is either the initiator or the executor of the request or recursively in any nested request.
+   * Checks if a given user is either the initiator or the executor of the request or recursively in any nested 
+   * request.
    * @param user The user to check direct or indirect involvement in the request.
    * @return True if the user is either the initiator or executor of the request or sub-request, false otherwise.
    */
   public boolean hasUserInvolved(User user) {
-    if(isInitiator(user) || isExecutor(user)) {
+    if(isInitiator(user) || hasCommitmentFrom(user)) {
       return true;
     } else {
       for(Request childRequest : getChildRequestSet()) {
@@ -91,12 +129,17 @@ public class Request extends Request_Base {
   }
 
   /**
-   * Checks if a given user is the executor of the request.
-   * @param user The user to be checked
-   * @return True if the given user is the executor of the request, false otherwise.
+   * Checks if a given user has made a commitment to execute the request.
+   * @param user the user to be checked
+   * @return true if the given user has committed to the request, false otherwise
    */
-  public Boolean isExecutor(User user) {
-    return hasExecutor() && getExecutor().equals(user);
+  public Boolean hasCommitmentFrom(User user) {
+    for(Commitment commitment : getCommitmentSet()) {
+      if(commitment.getUser().equals(user)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -110,5 +153,22 @@ public class Request extends Request_Base {
     getDescriptionComment().addReply(comment);
     return comment;
   }
-  
+
+  /**
+   * Computes the set of users participating in the request, considering the initiator and users committing to the
+   * request, and recursively to the sub-requests.
+   * @return the set of users participating in the request
+   */
+  public Set<User> getParticipantSet() {
+    Set<User> participantSet = new HashSet<User>();
+    participantSet.add(getInitiator());
+    for(Commitment commitment : getCommitmentSet()) {
+      participantSet.add(commitment.getUser());
+    }
+    for(Request subRequest : getChildRequestSet()) {
+      participantSet.addAll(subRequest.getParticipantSet());
+    }
+    return participantSet;
+  }
+
 }

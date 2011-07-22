@@ -17,6 +17,22 @@
 
 package pt.ist.processpedia.domain;
 
-public enum ProcessState {
-    DRAFT, OPEN, CLOSED;
+import pt.ist.processpedia.domain.exception.CannotCommitToRequestDomainException;
+import pt.ist.processpedia.domain.exception.MaxNumberCommitmentsExceededDomainException;
+
+public class RequestMaxCommitmentsClaimingPolicy extends RequestMaxCommitmentsClaimingPolicy_Base {
+
+  public RequestMaxCommitmentsClaimingPolicy(Integer numMaxCommitments) {
+    setNumMaxCommitments(numMaxCommitments);
+  }
+
+  @Override
+  public void validate(User claimer) throws CannotCommitToRequestDomainException {
+    Request request = getRequest();
+    Integer numMaxCommitments = getNumMaxCommitments();
+    if(request.getCommitmentCount() >= numMaxCommitments) {
+      throw new MaxNumberCommitmentsExceededDomainException(request, numMaxCommitments);
+    }
+  }
+
 }

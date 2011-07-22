@@ -41,7 +41,7 @@ public class GetUserExecutingRequestSetByUserId extends ProcesspediaService<Set<
     if(user == null) {
       throw new UserIdNotFoundServiceException(this.userId);
     }
-    Set<Request> executingRequestSet = user.getExecutingRequestSet();
+    Set<Request> executingRequestSet = user.getCommittedRequestSet();
     return DtoMapper.createRequestDtoSetFromRequestSet(executingRequestSet);
   }
 

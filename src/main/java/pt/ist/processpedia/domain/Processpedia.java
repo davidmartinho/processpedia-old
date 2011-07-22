@@ -17,6 +17,7 @@
 
 package pt.ist.processpedia.domain;
 
+import org.joda.time.DateTime;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.processpedia.domain.exception.*;
 
@@ -25,7 +26,7 @@ import pt.ist.processpedia.domain.DomainObject.IdFactory;
 public class Processpedia extends Processpedia_Base implements IdFactory {
 
   /**
-   * Initializes the Processpedia application.
+   * Initializes the Processpedia application on its first run.
    */
   public Processpedia() {
     setNextProcessId(new Id("1"));
@@ -44,10 +45,24 @@ public class Processpedia extends Processpedia_Base implements IdFactory {
    * @return The created process.
    */
   public Process createNewProcess(User creator, String title) {
-    Process process = new Process(creator, title);
-    addProcess(process);
-    return process;
+    Process newProcess = new Process(creator, title);
+    addProcess(newProcess);
+    return newProcess;
   }
+
+  /**
+   * Creates a new process with a particular description.
+   * @param creator the user creating the process
+   * @param title the title of the process
+   * @param description the description of the process
+   * @return the created process
+   */
+  public Process createNewProcess(User creator, String title, String description) {
+    Process newProcess = new Process(creator, title, description, new DateTime(), ProcessState.OPEN);
+    addProcess(newProcess);
+    return newProcess;
+  }
+
   
   /**
    * Closes a process that is in the open state.
@@ -138,18 +153,18 @@ public class Processpedia extends Processpedia_Base implements IdFactory {
   }
   
   /**
-   * Claims an unclaimed request.
-   * @param claimer The user claiming the request.
-   * @param request The request being claimed.
-   * @throws RequestAlreadyClaimedDomainException If the request is already claimed.
+   * Claims a commitment to the request
+   * @param claimer the user committing to the request
+   * @param request the request to which the user is committing to
+   * @throws CannotCommitToRequestDomainException when some of the request associated claiming policies fail
    */
-  public void claimRequest(User claimer, Request request) throws RequestAlreadyClaimedDomainException {
-    if(request.hasExecutor()) {
-      throw new RequestAlreadyClaimedDomainException(request);
+  public Commitment claimRequest(User claimer, Request request) throws CannotCommitToRequestDomainException {
+    for(RequestClaimingPolicy requestClaimingPolicy : request.getClaimingPolicySet()) {
+      requestClaimingPolicy.validate(claimer);
     }
-    request.setExecutor(claimer);
+    Commitment commitment = new Commitment(claimer, request);
+    return commitment;
   }
-
 
   /**
    * Obtains a request given its identifier.

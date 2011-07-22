@@ -15,8 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package pt.ist.processpedia.domain;
+package pt.ist.processpedia.domain.exception;
 
-public enum ProcessState {
-    DRAFT, OPEN, CLOSED;
+import pt.ist.processpedia.domain.Request;
+
+public class MaxNumberCommitmentsExceededDomainException extends CannotCommitToRequestDomainException {
+
+  private Integer maxNumberCommitments;
+
+  public MaxNumberCommitmentsExceededDomainException(Request request, Integer maxNumberCommitments) {
+    super(request);
+    this.maxNumberCommitments = maxNumberCommitments;
+  }
+
+  public Integer getMaxNumberCommitments() {
+    return maxNumberCommitments;
+  }
+
 }

@@ -15,8 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package pt.ist.processpedia.domain;
+package pt.ist.processpedia.domain.exception;
 
-public enum ProcessState {
-    DRAFT, OPEN, CLOSED;
+import pt.ist.processpedia.domain.Request;
+
+public abstract class CannotCommitToRequestDomainException extends ProcesspediaDomainException {
+
+  private Request request;
+
+  public CannotCommitToRequestDomainException(Request request) {
+    this.request = request;
+  }
+
+  public Request getRequest() {
+    return request;
+  }
+
 }

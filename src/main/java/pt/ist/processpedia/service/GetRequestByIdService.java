@@ -47,7 +47,7 @@ public class GetRequestByIdService extends ProcesspediaService<RequestDto> {
     if(request == null) {
       throw new RequestIdNotFoundServiceException(requestId);
     }
-    if(request.isInitiator(user) || request.isExecutor(user)) {
+    if(request.isInitiator(user) || request.hasCommitmentFrom(user)) {
       return DtoMapper.createRequestDtoFromRequest(request);
     } else {
       throw new NoPermissionToReadRequestServiceException(DtoMapper.createUserDtoFromUser(user), requestId);

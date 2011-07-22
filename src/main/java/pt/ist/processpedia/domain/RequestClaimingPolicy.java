@@ -17,6 +17,15 @@
 
 package pt.ist.processpedia.domain;
 
-public enum ProcessState {
-    DRAFT, OPEN, CLOSED;
+import pt.ist.processpedia.domain.exception.CannotCommitToRequestDomainException;
+
+public abstract class RequestClaimingPolicy extends RequestClaimingPolicy_Base {
+
+  /**
+   * Validates if a given user may claim the request according to the policy defined.
+   * @param claimer the user claiming the request
+   * @throws CannotCommitToRequestDomainException when the user violates the policy defined
+   */
+  public abstract void validate(User claimer) throws CannotCommitToRequestDomainException;
+
 }

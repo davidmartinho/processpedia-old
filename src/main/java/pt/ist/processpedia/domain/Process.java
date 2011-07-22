@@ -32,13 +32,13 @@ import pt.ist.processpedia.domain.exception.UserIsNotExecutingParentRequestDomai
 public class Process extends Process_Base {
 
   /**
-   * Creates a new process.
+   * Creates a new process without description at the current time and in the draft state.
    * @param creator the user creating the process
    * @param title the title of the process
    * @throws NoPermissionToCreateProcessDomainException when the user has no privileges to create processes
    */
   public Process(User creator, String title) throws NoPermissionToCreateProcessDomainException {
-    this(creator, title, "No description", new DateTime(), ProcessState.OPEN);
+    this(creator, title, null, new DateTime(), ProcessState.DRAFT);
   }
 
   /**
@@ -47,6 +47,7 @@ public class Process extends Process_Base {
    * @param title the title of the process
    * @param description the description of the process
    * @param creationTimestamp the timestamp for when the process was created
+   * @param state the state of the business process
    * @throws NoPermissionToCreateProcessDomainException when the user has no privileges to create processes
    */
   public Process(User creator, String title, String description, DateTime creationTimestamp,
@@ -67,17 +68,25 @@ public class Process extends Process_Base {
     this.setTitleTag(new Tag(title));
   }
 
+  /**
+   *
+   * @return
+   */
   public String getTitle() {
     return getTitleTag().getKeyword();
   }
 
+  /**
+   * Obtains a simple description of the process.
+   * @return the description of the process
+   */
   public String getDescription() {
     return this.getDescriptionComment().getCommentText();
   }
 
   /**
-   * Defines the description of the process.
-   * @param description the string describing the process
+   * Associates a simple description of the process.
+   * @param description the description of the process
    */
   public void setDescription(String description) {
     setDescriptionComment(new Comment(getCreator(), description));
@@ -85,11 +94,11 @@ public class Process extends Process_Base {
   
   /**
    * Creates a new request in the context of the process.
-   * @param creator The creator of the request.
-   * @param title The title of the request.
-   * @param description The description of the request.
-   * @return The created request.
-   * @throws UserDoesNotOwnProcessDomainException If the creator is not listed as an owner of the process.
+   * @param creator the creator of the request
+   * @param title the title of the request
+   * @param description the description of the request
+   * @return the created request
+   * @throws UserDoesNotOwnProcessDomainException when the creator is not listed as an owner of the process
    */
   public Request createNewRequest(User creator, String title, String description) throws
       UserDoesNotOwnProcessDomainException {
@@ -108,14 +117,14 @@ public class Process extends Process_Base {
    * @param title The title of the request.
    * @param description The description of the request.
    * @param parentRequest The request from which the request being created is originated.
-   * @throws UserIsNotExecutingParentRequestDomainException If the creator is not the current executor of the
-   * parentRequest.
+   * @throws UserIsNotExecutingParentRequestDomainException If the creator is has not made a commitment to executing
+   * the parentRequest.
    */
   public Request createNewRequest(User creator, String title, String description,
                                   Request parentRequest) throws UserIsNotExecutingParentRequestDomainException {
-    if(parentRequest.getExecutor().equals(creator)) {
+    if(parentRequest.hasCommitmentFrom(creator)) {
       Request request = new Request(creator, title, description, parentRequest);
-      request.setProcess(this);
+      addRequest(request);
       return request;
     } else {
       throw new UserIsNotExecutingParentRequestDomainException(creator, this, parentRequest);
@@ -160,7 +169,7 @@ public class Process extends Process_Base {
   }
   
   /**
-   * Verifies if a process is open.
+   * Verifies if the process is open.
    * @return True if the process is open, false otherwise.
    */
   public Boolean isOpen() {
@@ -175,8 +184,8 @@ public class Process extends Process_Base {
   }
   
   /**
-   * Verifies if a process is closed.
-   * @return True if the process is closed, false otherwise.
+   * Checks if the process is closed.
+   * @return true if the process is closed, false otherwise
    */
   public Boolean isClosed() {
     return getState().equals(ProcessState.CLOSED);
@@ -184,9 +193,9 @@ public class Process extends Process_Base {
 
   /**
    * Checks if the provided user is a current participant of the process, or if he owns the process.
-   * @param user The user for which is being checked a current participation.
-   * @return True if the user is either currently participating in the process or is one of its owners,
-   * false otherwise.
+   * @param user The user for which is being checked a current participation
+   * @return true if the user is either currently participating in the process or if he is defined as one of its
+   * owners, false otherwise
    */
   public Boolean hasParticipant(User user) {
     if(isOwnedBy(user)) {
@@ -202,27 +211,22 @@ public class Process extends Process_Base {
 
   /**
    * Checks if the provided user is a current owner of the process.
-   * @param user The user for which is being checked if he owns the process.
-   * @return True if the provided user owns the process, false otherwise.
+   * @param user the user being checked as owner of the process
+   * @return true if the provided user owns the process, false otherwise
    */
   public Boolean isOwnedBy(User user) {
-    for(User owner : this.getOwnerSet()) {
-      if(owner.equals(user)) {
-        return true;
-      }
-    }
-    return false;
+    return super.hasOwner(user);
   }
 
   /**
    * Computes the set of current users participating in the process (creator, owners, initiators and executors).
-   * @return The set of users participating in the process.
+   * @return the set of users currently participating in the process
    */
   public Set<User> getParticipantSet() {
     Set<User> participantSet = new HashSet<User>();
     participantSet.addAll(getOwnerSet());
     for(Request request : getRequestSet()) {
-      //TODO: ADD ALL THE OTHER CURRENT PARTICIPANTS TO THE SET
+      participantSet.addAll(request.getParticipantSet());
     }
     return participantSet;
   }

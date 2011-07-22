@@ -38,13 +38,17 @@ public class Id {
   }
 
   /**
-   * Obtains the next id.
-   * @return the next identifier
+   * Obtains the next identifier
+   * @return the following identifier
    */
   public Id getNextId() {
     return new Id(id+1);
   }
-  
+
+  /**
+   * Obtains a string representation of the identifier.
+   * @return the externalized representation of the identifier value
+   */
   public String toString() {
     return id.toString();
   }

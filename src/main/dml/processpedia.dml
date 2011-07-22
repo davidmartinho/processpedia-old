@@ -37,6 +37,23 @@ class Request extends DomainObject {
   DateTime completionTimestamp;
 }
 
+class RequestClaimingPolicy;
+
+relation RequestHaveClaimingPolicies {
+  Request playsRole request;
+  RequestClaimingPolicy playsRole claimingPolicy {
+    multiplicity *;
+  }
+}
+
+class RequestDeadlineClaimingPolicy extends RequestClaimingPolicy {
+  DateTime deadlineTimestamp;
+}
+
+class RequestMaxCommitmentsClaimingPolicy extends RequestClaimingPolicy {
+  Integer numMaxCommitments;
+}
+
 class Commitment extends DomainObject {
   DateTime commitmentTimestamp;
 }
@@ -94,13 +111,6 @@ relation UsersOwnProcesses {
 relation UsersInitiateRequests {
   User playsRole initiator;
   Request playsRole initiatedRequest {
-    multiplicity *;
-  }
-}
-
-relation UsersExecuteRequests {
-  User playsRole executor;
-  Request playsRole executingRequest {
     multiplicity *;
   }
 }
