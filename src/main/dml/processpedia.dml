@@ -1,8 +1,6 @@
 package pt.ist.processpedia.domain;
 
-enum pt.ist.processpedia.domain.ProcessState as ProcessState;
 enum pt.ist.processpedia.domain.RequestState as RequestState;
-enum pt.ist.processpedia.domain.ResponseState as ResponseState;
 
 valueType pt.ist.processpedia.domain.Id as Id {
   externalizeWith {
@@ -12,7 +10,6 @@ valueType pt.ist.processpedia.domain.Id as Id {
 
 class Processpedia {
   Id nextUserId;
-  Id nextProcessId;
   Id nextRequestId;
   Id nextCommitmentId;
   Id nextResponseId;
@@ -25,17 +22,18 @@ class DomainObject {
   String id;
 }
 
-class Process extends DomainObject {
-  ProcessState state;
-  DateTime creationTimestamp;
-  DateTime closeTimestamp;
-}
-
 class Request extends DomainObject {
   RequestState state;
   DateTime creationTimestamp;
   DateTime completionTimestamp;
 }
+
+class CallbackRequest extends Request;
+
+class ForwardRequest extends Request;
+
+class ProcessRequest extends Request;
+
 
 class RequestClaimingPolicy;
 
@@ -52,14 +50,6 @@ class RequestDeadlineClaimingPolicy extends RequestClaimingPolicy {
 
 class RequestMaxCommitmentsClaimingPolicy extends RequestClaimingPolicy {
   Integer numMaxCommitments;
-}
-
-class Commitment extends DomainObject {
-  DateTime commitmentTimestamp;
-}
-
-class Response extends DomainObject {
-  ResponseState state;
 }
 
 class User extends DomainObject {
@@ -115,49 +105,23 @@ relation UsersInitiateRequests {
   }
 }
 
-relation RequestsOccurInTheContextOfAProcess {
-  Process playsRole process;
-  Request playsRole request {
+relation UsersExecuteRequests {
+  User playsRole executor;
+  Request playsRole executingRequest {
     multiplicity *;
   }
 }
 
-relation UsersMakeCommitments {
-  User playsRole user;
-  Commitment playsRole commitment {
+relation RequestHasCallbackRequests {
+  Request playsRole parent;
+  CallbackRequest playsRole child {
     multiplicity *;
   }
 }
 
-relation CommitmentsAreMadeToARequest {
-  Request playsRole request;
-  Commitment playsRole commitment {
-    multiplicity *;
-  }
-}
-
-relation CommitmentHasResponses {
-  Commitment playsRole commitment;
-  Response playsRole response {
-    multiplicity *;
-  }
-}
-
-relation ResponsesMayBeImproved {
-  Response playsRole previousResponse;
-  Response playsRole improvedResponse;
-}
-
-relation UsersCreateResponses {
-  Response playsRole response {
-    multiplicity *;
-  }
-  User playsRole creator;
-}
-
-relation RequestsMayContainOtherRequests {
-  Request playsRole parentRequest;
-  Request playsRole childRequest {
+relation RequestHasForwardRequests {
+  Request playsRole previous;
+  ForwardRequest playsRole next {
     multiplicity *;
   }
 }

@@ -158,12 +158,12 @@ public class Processpedia extends Processpedia_Base implements IdFactory {
    * @param request the request to which the user is committing to
    * @throws CannotCommitToRequestDomainException when some of the request associated claiming policies fail
    */
-  public Commitment claimRequest(User claimer, Request request) throws CannotCommitToRequestDomainException {
+  public Request claimRequest(User claimer, Request request) throws CannotCommitToRequestDomainException {
     for(RequestClaimingPolicy requestClaimingPolicy : request.getClaimingPolicySet()) {
       requestClaimingPolicy.validate(claimer);
     }
-    Commitment commitment = new Commitment(claimer, request);
-    return commitment;
+    Request request = Request.newInstance();
+    return request;
   }
 
   /**

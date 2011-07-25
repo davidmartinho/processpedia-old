@@ -20,21 +20,22 @@ package pt.ist.processpedia.service;
 import pt.ist.processpedia.domain.Processpedia;
 import pt.ist.processpedia.domain.User;
 import pt.ist.processpedia.service.dto.CommitmentDto;
+import pt.ist.processpedia.service.dto.RequestDto;
 import pt.ist.processpedia.service.exception.ProcesspediaServiceException;
 
-public class CommitToRequestService extends ProcesspediaService<CommitmentDto> {
+public class ClaimRequestService extends ProcesspediaService<RequestDto> {
 
   private final String userId;
 
-  public CommitToRequestService(String userId) {
+  public ClaimRequestService(String userId,) {
     this.userId = userId;
   }
 
   @Override
-  public CommitmentDto dispatch() throws ProcesspediaServiceException {
+  public RequestDto dispatch() throws ProcesspediaServiceException {
     Processpedia processpedia = getProcesspedia();
     User executor = processpedia.getUserById(userId);
-    return new CommitmentDto(null, null);
+    return new RequestDto(null, null);
   }
   
 }
